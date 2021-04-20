@@ -9,6 +9,7 @@ use App\Driver;
 use App\Pool;
 use App\VehicleOwner;
 use DB;
+use Auth;
 use Carbon\Carbon;
 
 class OperationalController extends Controller
@@ -62,5 +63,41 @@ class OperationalController extends Controller
           session()->flash('message', 'Surat Jalan gagal ditambahkan! trace : '.$e->getMessage());
         }
         return redirect()->route('show_delivery',$r->delivery_id);
+    }
+    public function newDelivery()
+    {
+      return view('delivery.form')->with('method', 'new');
+    }
+    public function storeDelivery(Request $r)
+    {
+      $d = new Delivery;
+      $d->code = $r->code;
+      $d->admin = Auth::user()->id;
+      $d->customer_name = $r->customer_name;
+      $d->customer_address = $r->customer_address;
+      $d->customer_phone = $r->customer_phone;
+      $d->freight_load = $r->freight_load;
+      $d->sender_name = $r->sender_name;
+      $d->sender_address = $r->sender_address;
+      $d->sender_phone = $r->sender_phone;
+      $d->sender_email = "";
+      $d->recipient_name = $r->recipient_name;
+      $d->recipient_phone = $r->recipient_phone;
+      $d->recipient_address = $r->recipient_address;
+      $d->recipient_email = "";
+
+      // dd($r);
+      try {
+        $d->save();
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil');
+        session()->flash('message', 'Surat Ajuan berhasil ditambahkan');
+        return redirect()->route('show_delivery',$d->id);
+      } catch (\Exception $e) {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Surat Ajuan gagal ditambahkan! trace : '.$e->getMessage());
+        return redirect()->route('new_delivery');
+      }
     }
 }

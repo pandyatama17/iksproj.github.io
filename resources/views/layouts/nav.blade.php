@@ -56,7 +56,7 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a href="/master" class="nav-link">
+      <a href="{{route('new_delivery')}}" class="nav-link">
         <i class="fa fa-plus-square nav-icon"></i>
         <p>Tambah Ajuan Baru</p>
       </a>

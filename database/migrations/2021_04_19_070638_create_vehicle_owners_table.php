@@ -15,6 +15,10 @@ class CreateVehicleOwnersTable extends Migration
     {
         Schema::create('vehicle_owners', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->bigInteger('phone');
+            $table->longText('address');
+            $table->string('email');
             $table->timestamps();
         });
     }

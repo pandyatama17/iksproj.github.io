@@ -26,4 +26,23 @@ $("#transportSelect").on('change',function(event)
       }
     })
 });
+$("#addDOModal").on('shown.bs.modal',function() {
+  var donum = $("#DONumberTxt");
+  const lastIndex = $("#indexDOCount").val();
+  var newIndex = parseInt(lastIndex) + 1;
+  const index = zeroFill(newIndex,3);
+  const code = donum.data('code') + index;
+
+  donum.val(code);
+});
+
+function zeroFill( number, width )
+{
+  width -= number.toString().length;
+  if ( width > 0 )
+  {
+    return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+  }
+  return number + ""; // always return a string
+}
 </script>

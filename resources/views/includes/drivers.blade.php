@@ -18,6 +18,7 @@ $("#driverSelect").on('change',function(event)
       success: function(response)
       {
         $("#plateNumberTxt").val(response.license_plate_no);
+        $("#plateNumberTxt").attr('readonly',false);
       }
     })
 });

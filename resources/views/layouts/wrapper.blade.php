@@ -21,6 +21,12 @@
   <link rel="stylesheet" href="{{asset('/alt/plugins/toastr/toastr.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('alt/dist/css/adminlte.min.css')}}">
+  <style media="screen">
+    @media(max-width:576px)
+    {
+      .table-responsive{overflow-x:scroll;}
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->

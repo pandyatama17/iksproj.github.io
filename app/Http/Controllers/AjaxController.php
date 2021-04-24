@@ -8,6 +8,7 @@ use App\DeliveryOrder;
 use App\Driver;
 use App\Pool;
 use App\VehicleOwner;
+use App\Ref;
 use DB;
 
 class AjaxController extends Controller
@@ -22,5 +23,25 @@ class AjaxController extends Controller
       $driver = Driver::find($driver_id);
 
       echo json_encode($driver);
+    }
+    public function GetReference($header)
+    {
+      $query = $_GET['query'];
+      if ($query) {
+        $refs = Ref::where('head',$header)
+                    ->where('body', 'like', '%'.$query.'%')
+                    ->take(10)
+                    ->select('body')
+                    ->get();
+
+        foreach($refs as $ref)
+        {
+          $return_array[] =  ["value"=>$ref->body,"data"=>$ref->body];
+        }
+
+        if (isset($return_array)) {
+          echo json_encode(array("suggestions"=>$return_array));
+        }
+      }
     }
 }

@@ -15,10 +15,13 @@
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/select2/css/select2.min.css')}}">
-  <link rel="stylesheet" href="{{asset('alt/plugins/select2-bootstrap4-theme/css/select2-bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('alt/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('datepicker/dist/css/bootstrap-datepicker.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/sweetalert2/sweetalert2.css')}}">
   <link rel="stylesheet" href="{{asset('/alt/plugins/toastr/toastr.min.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/datepicker-custom.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/autocomplete.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/custom.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('alt/dist/css/adminlte.min.css')}}">
   <style media="screen">
@@ -102,8 +105,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Blank Page</li>
+              <li class="breadcrumb-item"><a href="/master">Rekap</a></li>
+              <li class="breadcrumb-item active">@yield('title')</li>
             </ol>
           </div>
         </div>
@@ -124,7 +127,7 @@
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Kimochiinside</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; @if(Carbon\Carbon::now()->format("Y") != '2021')2021 - @endif{{Carbon\Carbon::now()->format("Y")}} <a href="#">Menafarsoft</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
@@ -132,7 +135,15 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
+
 </div>
+<div class="loader-overlay show page-loader">
+</div>
+<div class="spanner show page-loader">
+  <div class="loader"></div>
+  <p>Mohon menungggu, halaman sedang dimuat.</p>
+</div>
+
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -158,6 +169,8 @@
 <script src="{{asset('datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('/alt/plugins/sweetalert2/sweetalert2.all.js')}}" charset="utf-8"></script>
 <script src="{{asset('/alt/plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('/jQuery-autocomplete/scripts/jquery.mockjax.js')}}"></script>
+<script src="{{asset('/jQuery-autocomplete/src/jquery.autocomplete.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('alt/dist/js/adminlte.min.js')}}"></script>
 @include('layouts.bladejs')

@@ -31,6 +31,7 @@ Route::group(['middleware'=>['auth']], function()
   //ajax get routes
   Route::get('/ajaxCall/drivers&transport={owner_id}', 'AjaxController@getDriversFromOwner');
   Route::get('/ajaxCall/driverDetails&driverID={driver_id}', 'AjaxController@getDriverDetails');
+  Route::get('/ajaxCall/getReference&header={head}', 'AjaxController@getReference');
 
   // post routes
   Route::post('/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');

@@ -28,9 +28,9 @@
     <li class="nav-header">SURAT AJUAN</li>
     <li class="nav-item">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-envelope"></i>
+        <i class="nav-icon fa fa-ship"></i>
         <p>
-          Pengajuan Surat
+          Rekap Tongkang
           <i class="right fas fa-angle-left"></i>
         </p>
       </a>
@@ -42,13 +42,13 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../../index.html" class="nav-link text-secondary">
+          <a href="#" class="nav-link text-secondary">
             <i class="fa fa-shipping-fast nav-icon"></i>
             <p>Sedang Berlangsung</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="../../index2.html" class="nav-link text-secondary">
+          <a href="#" class="nav-link text-secondary">
             <i class="fa fa-history nav-icon"></i>
             <p>Riwayat</p>
           </a>
@@ -58,7 +58,7 @@
     <li class="nav-item">
       <a href="{{route('new_delivery')}}" class="nav-link">
         <i class="fa fa-plus-square nav-icon"></i>
-        <p>Tambah Ajuan Baru</p>
+        <p>Tambah Rekap Baru</p>
       </a>
     </li>
     <li class="nav-header">SURAT JALAN</li>
@@ -84,7 +84,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="../../index2.html" class="nav-link text-secondary">
+          <a href="#" class="nav-link text-secondary">
             <i class="fa fa-history nav-icon"></i>
             <p>Riwayat</p>
           </a>
@@ -92,31 +92,34 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a href="../../index2.html" class="nav-link text-secondary">
+      <a href="#" class="nav-link text-secondary">
         <i class="fa fa-plus-square nav-icon"></i>
         <p>Tambah Surat Jalan</p>
       </a>
     </li>
-    <li class="nav-header">MANAJEMEN</li>
-    <li class="nav-item">
-      <a href="#" class="nav-link text-secondary">
-        {{-- <i class="nav-icon fa fa-people-carry"></i> --}}
-        <i class="nav-icon fa fa-hard-hat"></i>
-        <p>Supir & Transport</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link text-secondary">
-        <i class="nav-icon fa fa-users"></i>
-        <p>Data Admin</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a href="#" class="nav-link text-secondary">
-        <i class="nav-icon fa fa-sitemap"></i>
-        <p>Data Pool</p>
-      </a>
-    </li>
+
+    @if (Auth::user()->id < 2)
+      <li class="nav-header">MANAJEMEN</li>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-secondary">
+          {{-- <i class="nav-icon fa fa-people-carry"></i> --}}
+          <i class="nav-icon fa fa-hard-hat"></i>
+          <p>Supir & Transport</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-secondary">
+          <i class="nav-icon fa fa-users"></i>
+          <p>Data Admin</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-secondary">
+          <i class="nav-icon fa fa-sitemap"></i>
+          <p>Data Pool</p>
+        </a>
+      </li>
+    @endif
 
   </ul>
 </nav>

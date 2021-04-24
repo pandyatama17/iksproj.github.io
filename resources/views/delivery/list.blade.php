@@ -3,7 +3,7 @@
 @section('content')
   <div class="card card-primary">
     <div class="card-header">
-      <h5 class="card-title">Tongkang {{$data->code}}</h5>
+      <h5 class="card-title">Tongkang {{$data->code}} ({{$data->pool}})</h5>
       <div class="card-tools">
         <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
           <i class="fas fa-plus"></i> Tambah Surat

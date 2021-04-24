@@ -25,7 +25,7 @@
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     <!-- Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library -->
-    <li class="nav-header">SURAT AJUAN</li>
+    <li class="nav-header">REKAPAN SURAT</li>
     <li class="nav-item">
       <a href="#" class="nav-link">
         <i class="nav-icon fa fa-ship"></i>
@@ -36,29 +36,59 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="/master" class="nav-link">
+          <a href="{{route('master_data')}}" class="nav-link url-redirect">
             <i class="fa fa-archive nav-icon"></i>
             <p>Data Master</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link text-secondary">
-            <i class="fa fa-shipping-fast nav-icon"></i>
-            <p>Sedang Berlangsung</p>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-sitemap"></i>
+            <p>
+              Pool
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            @foreach (\App\Pool::all() as $pool)
+              <li class="nav-item">
+                <a href="{{route('deliveries_data',$pool->id)}}" class="nav-link url-redirect">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{$pool->name}}</p>
+                </a>
+              </li>
+            @endforeach
+          </ul>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link text-secondary">
-            <i class="fa fa-history nav-icon"></i>
-            <p>Riwayat</p>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-clipboard-check"></i>
+            <p>
+              Status
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link text-secondary">
+                <i class="fa fa-shipping-fast nav-icon"></i>
+                <p>Sedang Berlangsung</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link text-secondary">
+                <i class="fa fa-history nav-icon"></i>
+                <p>Riwayat</p>
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
     </li>
     <li class="nav-item">
-      <a href="{{route('new_delivery')}}" class="nav-link">
+      <a href="{{route('new_delivery')}}" class="nav-link url-redirect">
         <i class="fa fa-plus-square nav-icon"></i>
-        <p>Tambah Rekap Baru</p>
+        <p>Tambah Rekap</p>
       </a>
     </li>
     <li class="nav-header">SURAT JALAN</li>
@@ -72,27 +102,34 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="/master" class="nav-link">
+          <a href="{{route('do_master_data')}}" class="nav-link url-redirect">
             <i class="fa fa-archive nav-icon"></i>
             <p>Data Master</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="../../index.html" class="nav-link text-secondary">
-            <i class="fa fa-shipping-fast nav-icon"></i>
-            <p>Sedang Berlangsung</p>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-sitemap"></i>
+            <p>
+              Pool
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link text-secondary">
-            <i class="fa fa-history nav-icon"></i>
-            <p>Riwayat</p>
-          </a>
+          <ul class="nav nav-treeview">
+            @foreach (\App\Pool::all() as $pool)
+              <li class="nav-item">
+                <a href="{{route('do_data',$pool->id)}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{$pool->name}}</p>
+                </a>
+              </li>
+            @endforeach
+          </ul>
         </li>
       </ul>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link text-secondary">
+      <a href="{{route('new_do')}}" class="nav-link url-redirect">
         <i class="fa fa-plus-square nav-icon"></i>
         <p>Tambah Surat Jalan</p>
       </a>

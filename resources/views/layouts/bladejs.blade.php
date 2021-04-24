@@ -32,9 +32,16 @@ $(document).ready(function()
   });
   $(".select2").select2();
 });
+$(".url-redirect").on('click',function(e) {
+  e.preventDefault();
+  var url = $(this).attr('href');
+  // $('.control-sidebar').trigger('click');
+  $('.page-loader').addClass('show');
+  setTimeout(function(){ window.location.href = url }, 100);
+});
 $("#transportSelect").on('change',function(event)
 {
-    const url = "/ajaxCall/drivers&transport=" + $(this).val();
+    const url = "/tracking/ajaxCall/drivers&transport=" + $(this).val();
     $.ajax({
       url : url,
       type: 'GET',
@@ -56,14 +63,14 @@ $("#addDOModal").on('shown.bs.modal',function() {
 });
 
 // $('#customerTxt').autocomplete({
-//   serviceUrl: '/ajaxCall/getReference&header=3',
+//   serviceUrl: '/tracking/ajaxCall/getReference&header=3',
 //   appendTo : '#suggestions-container',
 //   onSelect: function (ref) {
 //     alert('You selected: ' + ref.body);
 //   }
 // });
 $('#customerTxt').autocomplete({
-    serviceUrl: '/ajaxCall/getReference&header=3',
+    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -78,7 +85,7 @@ $('#customerTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#codeTxt').autocomplete({
-    serviceUrl: '/ajaxCall/getReference&header=1',
+    serviceUrl: '/tracking/ajaxCall/getReference&header=1',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -93,7 +100,7 @@ $('#codeTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#senderTxt').autocomplete({
-    serviceUrl: '/ajaxCall/getReference&header=3',
+    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -108,7 +115,7 @@ $('#senderTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#recipientTxt').autocomplete({
-    serviceUrl: '/ajaxCall/getReference&header=3',
+    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -123,7 +130,7 @@ $('#recipientTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#FreightLoadTxt').autocomplete({
-    serviceUrl: '/ajaxCall/getReference&header=2',
+    serviceUrl: '/tracking/ajaxCall/getReference&header=2',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -137,6 +144,62 @@ $('#FreightLoadTxt').autocomplete({
     },
     autoSelectFirst: true
 });
+
+$("#deliverySelect").on('change',function() {
+  var url = "/tracking/ajaxCall/getDeliveryDetails&id="+$(this).val();
+  var code = $(this).find('option:selected').text();
+  $.get({
+    url: url,
+    dataType: 'json',
+    beforeSend: function(jqXHR, settings) {
+        $(".page-loader").addClass('show');
+    },
+    success: function(response) {
+      $("#adminTxtFalse").val(response.admin);
+      $("#customerNameTxtFalse").val(response.customer_name);
+      $("#poolTxtFalse").val(response.pool);
+      $("#dateTxtFalse").val(response.date);
+      $(".false-input").prop('disabled',true);
+      // $(".page-loader").removeClass('show');
+      $("#DOIndex").val('1');
+      $("#do-form").html('');
+      newDOChild($("#deliverySelect").val(),code,$("#DOIndex").val());
+      if ($(window).width() <= 768)
+      {
+        $("#header-card").CardWidget('collapse');
+      }
+      $("#form-footer").slideDown();
+    }
+  });
+  $("#addDOChild").on('click',function()
+  {
+      var id = $("#deliverySelect").val();
+      var code = $("#deliverySelect").find('option:selected').text();
+      var currRow = $("#DOIndex").val();
+      newDOChild(id,code,currRow);
+  });
+});
+function newDOChild(id,code,index)
+{
+  var url = "/tracking/ajaxCall/newDOLine&id="+id+"&code="+code+"&index="+index;
+
+  $.get({
+    url: url,
+    dataType: 'html',
+    beforeSend: function(jqXHR, settings) {
+        $(".page-loader").addClass('show');
+    },
+    success: function(response) {
+      $("#do-form").append(response);
+      $(".page-loader").removeClass('show');
+      index++;
+      $("#DOIndex").val(index);
+      // $('body, html').animate({
+      //   scrollTop: $("#do-row-"+index).offset().top
+      // }, 600);
+    }
+  });
+}
 
 function zeroFill( number, width )
 {

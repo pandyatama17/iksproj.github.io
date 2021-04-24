@@ -10,7 +10,7 @@
 $(".select2").select2();
 $("#driverSelect").on('change',function(event)
 {
-    const url = "/ajaxCall/driverDetails&driverID=" + $(this).val();
+    const url = "/tracking/ajaxCall/driverDetails&driverID=" + $(this).val();
     $.ajax({
       url : url,
       type: 'GET',

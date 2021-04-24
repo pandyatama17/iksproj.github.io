@@ -1,9 +1,9 @@
 @extends('layouts.wrapper')
-@section('title','Data Master')
+@section('title','Data '.$pool)
 @section('content')
   <div class="card">
     <div class="card-header">
-      <h3 class="card-title">Data Tongkang per {{Carbon\Carbon::now()->format('d F Y')}}</h3>
+      <h3 class="card-title">Data {{$pool}} Tongkang per {{Carbon\Carbon::now()->format('d F Y')}}</h3>
       <div class="card-tools">
         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
           <i class="fas fa-minus"></i>
@@ -40,7 +40,7 @@
               <td>{{array_sum(App\DeliveryOrder::where('delivery_id',$d->id)->pluck('tonnage')->toArray())}} Kg.</td>
               <td><span class="badge badge-secondary">{{count(App\DeliveryOrder::where('delivery_id',$d->id)->get())}} Rit</span> </td>
               <td>
-                <a href="{!! route('show_delivery',$d->id) !!}">
+                <a href="{!! route('show_delivery',$d->id) !!}" class="url-redirect">
                   <i class="fa fa-search"></i> | Data Surat Jalan
                 </a>
               </td>

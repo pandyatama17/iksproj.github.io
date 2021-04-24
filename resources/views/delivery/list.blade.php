@@ -199,7 +199,7 @@
           <div class="row">
             {{-- <div class="col-8">
             </div> --}}
-            <div class="col-5">
+            <div class="col-7 col-lg-5">
               <div class="form-group">
                 <label>Tarip</label>
                 <div class="input-group">

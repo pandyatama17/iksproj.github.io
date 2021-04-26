@@ -39,6 +39,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/tracking/ajaxCall/getReference&header={head}', 'AjaxController@getReference');
   Route::get('/tracking/ajaxCall/getDeliveryDetails&id={id}', 'AjaxController@getDelivery');
   Route::get('/tracking/ajaxCall/newDOLine&id={id}&code={code}&index={index}', 'AjaxController@newDOLine');
+  Route::get('/tracking/ajaxCall/getDeliveryOrders&deliery={id}', 'AjaxController@getDeliveryOrders');
 
   // post routes
   Route::post('/tracking/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');

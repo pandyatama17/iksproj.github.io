@@ -11,13 +11,31 @@
   </div>
   <div class="card-body">
     <div class="row">
-      <div class="col-lg-5 col-7">
+      <div class="col-lg-4 col-6">
         <div class="form-group">
           <label for="">No. Surat jalan</label>
           <input type="text" class="form-control" name="do_number[]"  id="DONumberTxt{{$index}}" value="{{$code.$rowIndex }}" readonly>
         </div>
       </div>
-      <div class="col-5">
+      <div class="col-lg-5 col-6">
+        <div class="form-group">
+          <label for="">Blendingan Surat</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"  style="padding:0 !important">
+                <input type="checkbox" class="icheck" class="" id="blendingCheck-{{$index}}" name="blending-{{$index}}">
+              </span>
+            </div>
+            <select class="select2 form-control" name="blending_ref_id-{{$index}}" id="blendingRefSelect-{{$index}}" disabled>
+              <option selected disabled>SJ Referensi..</option>
+              @foreach ($delivery_orders as $do)
+                <option value="{{$do->id}}">{{$do->do_number}}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-5">
         <div class="form-group">
           <label for="">Tonase</label>
           <div class="input-group">
@@ -83,6 +101,10 @@ $(document).ready(function() {
   $('body, html').animate({
     scrollTop: $("#do-row-{{$index}}").offset().top
   }, 600);
+  $(".icheck").iCheck({
+     checkboxClass: 'icheckbox_flat-blue',
+     radioClass: 'iradio_flat-blue',
+  });
 });
 $("#deleteDO-{{$index}}").on('click',function()
 {
@@ -90,7 +112,9 @@ $("#deleteDO-{{$index}}").on('click',function()
   $("#deleteDO-{{$index - 1}}").show();
   $("#do-row-{{$index}}").slideUp("normal", function() { $(this).remove(); } );
 });
-$(".select2").select2();
+$(".select2").select2({
+  // placeholder : $(this).data('placeholder')
+});
 $("#transportSelect{{$index}}").on('change',function(event)
 {
     const url = "/tracking/ajaxCall/driversJSON&transport=" + $(this).val();
@@ -126,4 +150,11 @@ $("#driverSelect{{$index}}").on('change',function(event)
       }
     })
 });
+$("#blendingCheck-{{$index}}").on('ifChecked',function() {
+  $("#blendingRefSelect-{{$index}}").prop('disabled',false);
+});
+$("#blendingCheck-{{$index}}").on('ifUnchecked',function() {
+  $("#blendingRefSelect-{{$index}}").prop('selectedIndex',0).trigger('change');
+  $("#blendingRefSelect-{{$index}}").prop('disabled',true);
+})
 </script>

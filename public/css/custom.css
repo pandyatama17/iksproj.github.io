@@ -1,3 +1,11 @@
+@media only screen and (min-width: 990px) {
+	body > * {
+	   font-size: 90% !important;
+	}
+	h5{
+		font-size: 120% !important;
+	}
+}
 .pulse {
 	border: 1px solid lightgray;
 	height: 40px;
@@ -116,4 +124,14 @@
     100% {
 		box-shadow: 0 0 20px rgba(29, 194, 219,.8);
     }
+}
+.input-group > .select2-container {
+    width: auto;
+    flex: 1 1 auto;
+}
+
+.input-group > .select2-container .select2-selection--single {
+    height: 100%;
+    line-height: inherit;
+    padding: 0.5rem 1rem;
 }

@@ -31,6 +31,10 @@ $(document).ready(function()
     language : "id"
   });
   $(".select2").select2();
+  $(".icheck").iCheck({
+     checkboxClass: 'icheckbox_flat-blue',
+     radioClass: 'iradio_flat-blue',
+  });
 });
 $(".url-redirect").on('click',function(e) {
   e.preventDefault();
@@ -144,7 +148,13 @@ $('#FreightLoadTxt').autocomplete({
     },
     autoSelectFirst: true
 });
-
+$("#blendingCheck").on('ifChecked',function() {
+  $("#blendingRefSelect").prop('disabled',false);
+});
+$("#blendingCheck").on('ifUnchecked',function() {
+  $("#blendingRefSelect").prop('selectedIndex',0).trigger('change');
+  $("#blendingRefSelect").prop('disabled',true);
+})
 $("#deliverySelect").on('change',function() {
   var url = "/tracking/ajaxCall/getDeliveryDetails&id="+$(this).val();
   var code = $(this).find('option:selected').text();

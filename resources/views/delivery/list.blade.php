@@ -1,12 +1,26 @@
 @extends('layouts.wrapper')
 @section('title','Data Surat Jalan '.$data->code)
 @section('content')
+  <style media="screen">
+  .input-group .select2-selection__rendered {
+  line-height: 110% !important;
+  }
+  .input-group .select2-container .select2-selection--single {
+    height: 110% !important;
+  }
+  .input-group .select2-selection__arrow {
+    height: 110% !important;
+  }
+  </style>
   <div class="card card-primary">
     <div class="card-header">
       <h5 class="card-title">Tongkang {{$data->code}} ({{$data->pool}})</h5>
       <div class="card-tools">
         <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
-          <i class="fas fa-plus"></i> Tambah Surat
+          <i class="fas fa-plus"></i> <span class="d-none d-md-inline">Tambah Surat</span>
+        </button>
+        <button type="button" class="btn btn-tool bg-success" onclick="Swal.fire('belum ada')">
+          <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Import Excel</span>
         </button>
         {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
           <i class="fas fa-minus"></i>
@@ -83,21 +97,21 @@
         <br>
       </div>
       <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>No. SJ</th>
+              <th style="width:25%">No. SJ</th>
               {{-- <th>tgl.</th> --}}
               <th>Sopir</th>
               <th>No. Plat</th>
               <th>Tonase</th>
-              <th>Angkutan</th>
+              <th style="width:8%">Angkutan</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($details as $d)
               <tr>
-                <td>{{$d->do_number}}</td>
+                <td><b>{{$d->do_number}}</b> @if ($d->blend_ref_id) <small>(Blending {{\App\DeliveryOrder::find($d->blend_ref_id)->do_number}})</small> @endif </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
                 <td>{{$d->driver}}</td>
                 <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
@@ -111,9 +125,14 @@
       </div>
     </div>
     <!-- /.card-body -->
-    {{-- <div class="card-footer">
-      Footer
-    </div> --}}
+    <div class="card-footer d-block d-md-none">
+      <button type="button" class="btn bg-navy" data-toggle="modal" data-target="#addDOModal">
+        <i class="fas fa-plus"></i> Tambah Surat
+      </button>
+      <button type="button" class="btn bg-success" onclick="Swal.fire('belum ada')">
+        <i class="fas fa-file-excel"></i> Import Excel
+      </button>
+    </div>
     <!-- /.card-footer-->
   </div>
   {{-- modal --}}
@@ -146,10 +165,28 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-5">
+            <div class=" col-lg-3 col-5">
               <div class="form-group">
                 <label for="">No. Surat jalan</label>
                 <input type="text" class="form-control" name="do_number" data-code="{{$data->code}}"  id="DONumberTxt" value="{{$data->code}}">
+              </div>
+            </div>
+            <div class="col-lg-4 col-6">
+              <div class="form-group">
+                <label for="">Blendingan Surat</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text"style="height:110%">
+                      <input type="checkbox" class="icheck" id="blendingCheck">
+                    </span>
+                  </div>
+                  <select class="select2 form-control" name="blending_ref_id" id="blendingRefSelect" disabled>
+                    <option selected disabled>SJ Referensi..</option>
+                    @foreach ($details as $do)
+                      <option value="{{$do->id}}">{{$do->do_number}}</option>
+                    @endforeach
+                  </select>
+                </div>
               </div>
             </div>
             {{-- <div class="col-4">
@@ -158,7 +195,7 @@
                 <input type="text" class="form-control datepicker" name="date" id="dateTxt" autocomplete="off">
               </div>
             </div> --}}
-            <div class="col-5">
+            <div class="col-lg-2 col-5">
               <div class="form-group">
                 <label for="">Tonase</label>
                 <div class="input-group">

@@ -64,13 +64,21 @@ class AjaxController extends Controller
     public function newDOLine($id, $code, $index)
     {
         $transports = VehicleOwner::all();
+        $dos = DeliveryOrder::where('delivery_id',$id)->get();
         $lastIndex = count(DeliveryOrder::where('delivery_id',$id)->get());
         $rowIndex = $index + $lastIndex;
         $rowIndex = str_pad((string)$rowIndex, 3, "0", STR_PAD_LEFT);
         return view('includes.doform')
               ->with('code', $code)
+              ->with('delivery_orders', $dos)
               ->with('rowIndex', $rowIndex)
               ->with('index', $index)
               ->with('transports', $transports);
+    }
+    public function getDeliveryOrders($id)
+    {
+      $do = DeliveryOrder::where('delivery_id',$id)->get();
+
+      echo json_encode($do);
     }
 }

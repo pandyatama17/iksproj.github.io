@@ -22,6 +22,8 @@
   <link rel="stylesheet" href="{{asset('/css/datepicker-custom.css')}}">
   <link rel="stylesheet" href="{{asset('/css/autocomplete.css')}}">
   <link rel="stylesheet" href="{{asset('/css/custom.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('alt/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}"> --}}
+  <link rel="stylesheet" href="{{asset('alt/plugins/icheck/skins/all.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('alt/dist/css/adminlte.min.css')}}">
   <style media="screen">
@@ -171,6 +173,7 @@
 <script src="{{asset('/alt/plugins/toastr/toastr.min.js')}}"></script>
 <script src="{{asset('/jQuery-autocomplete/scripts/jquery.mockjax.js')}}"></script>
 <script src="{{asset('/jQuery-autocomplete/src/jquery.autocomplete.js')}}"></script>
+<script src="{{asset('alt/plugins/icheck/icheck.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('alt/dist/js/adminlte.min.js')}}"></script>
 @include('layouts.bladejs')

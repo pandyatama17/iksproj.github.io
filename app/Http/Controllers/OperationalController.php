@@ -94,6 +94,10 @@ class OperationalController extends Controller
         $do->driver_id = $r->driver;
         $do->license_plate_no = $r->license_plate_no;
         // $do->date = Carbon::parse($r->date);
+        if ($r->blending_ref_id)
+        {
+          $do->blend_ref_id = $r->blending_ref_id;
+        }
         $do->tonnage = $r->tonnage;
         $do->fare = $r->fare;
         $do->status = 2;
@@ -175,11 +179,11 @@ class OperationalController extends Controller
     }
     public function storeDeliveryOrder2(Request $r)
     {
+
         // return $r;
         $rows = $r->rows - 1;
-        // $values = "";
-        for ($i=0; $i < $rows; $i++) {
-          // $values.="row: ".$i.",";
+        for ($i=0; $i < $rows; $i++)
+        {
           $do = new DeliveryOrder;
 
           $do->delivery_id = $r->delivery_id;
@@ -187,6 +191,10 @@ class OperationalController extends Controller
           $do->driver_id = $r->driver_id[$i];
           $do->license_plate_no = $r->license_plate_no[$i];
           // $do->date = Carbon::parse($r->date);
+          if ($r->input('blending_ref_id-'.$i))
+          {
+            $do->blend_ref_id = $r->input('blending_ref_id-'.$i);
+          }
           $do->tonnage = $r->tonnage[$i];
           $do->fare = $r->fare[$i];
           $do->status = 2;

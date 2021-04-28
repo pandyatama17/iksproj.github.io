@@ -23,9 +23,6 @@ class OperationalController extends Controller
       return view('delivery.master')
               ->with('pool', $pool)
               ->with('data', $data);
-
-      return view('delivery.master')
-              ->with('data', $data);
     }
     public function showDeliveriesByPool($id)
     {

@@ -12,74 +12,81 @@ class DataSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('deliveries')->insert([
-          'code' => 'DOMCS',
-          'admin' => '1',
-          'sender_name' => 'PT. Mencari Cinta Sejati',
-          'sender_address' => 'Jl. apa',
-          'sender_phone' => '8182773',
-          'recipient_name' => 'PT. Proyek gagal',
-          'recipient_address' => 'Jl. terserah',
-          'recipient_phone' => '8912831',
-          'sender_email' => 'pengirim@gmail.com',
-          'recipient_email' => 'penerima@gmail.com',
-          'freight_load' => 'Batu Ginjal',
-          'customer_name' => 'saya',
-          'customer_phone' => '0822771823',
-          'customer_address' => 'sokon'
-      ]);
-      DB::table('delivery_orders')->insert([
-          'delivery_id' => 1,
-          'do_number' => 'DOMCS001',
-          'date' => Carbon::now(),
-          'driver_id' => 1,
-          'fare' => 100000,
-          'status' => 2,
-          'tonnage' => 200
-      ]);
-      DB::table('delivery_orders')->insert([
-          'delivery_id' => 1,
-          'do_number' => 'DOMCS002',
-          'date' => Carbon::now(),
-          'driver_id' => 2,
-          'fare' => 100000,
-          'status' => 2,
-          'tonnage' => 200
-      ]);
-      DB::table('deliveries')->insert([
-          'code' => 'DOPCSS',
-          'admin' => '1',
-          'sender_name' => 'PT. Pencari Cinta Sejati Dan Setia Selamanya',
-          'sender_address' => 'Jl. apa',
-          'sender_phone' => '8192881',
-          'recipient_name' => 'PT. Pembasmi Cheat dan Berdoa',
-          'recipient_address' => 'Jl. alay',
-          'sender_email' => 'pengirim@gmail.com',
-          'recipient_email' => 'penerima@gmail.com',
-          'recipient_phone' => '8377212',
-          'freight_load' => 'Minyak Firdaus',
-          'customer_name' => 'anda',
-          'customer_phone' => '093819921',
-          'customer_address' => 'jl. adkj askdka RT/RW 10/23 adkasdkj, asljkd,'
-      ]);
-      DB::table('delivery_orders')->insert([
-          'delivery_id' => 2,
-          'do_number' => 'DOPCSS001',
-          'date' => Carbon::now(),
-          'driver_id' => 3,
-          'fare' => 100000,
-          'status' => 2,
-          'tonnage' => 200
-      ]);
-      DB::table('delivery_orders')->insert([
-          'delivery_id' => 2,
-          'do_number' => 'DOPCSS002',
-          'date' => Carbon::now(),
-          'driver_id' => 4,
-          'fare' => 100000,
-          'status' => 2,
-          'tonnage' => 200
-      ]);
+      for ($i=201; $i <=1000 ; $i++) {
+        DB::table('deliveries')->insert([
+          'id' => $i,
+           'code' => 'Banyak-'.sprintf("%03d", $i),
+           'admin' => '1',
+           'sender_name' => 'Snd Test Banyak-'.sprintf("%03d", $i),
+           'recipient_name' => 'Rec Test Banyak-'.sprintf("%03d", $i),
+           'freight_load' => 'Test Purposes Only',
+           'customer_name' => 'Cust Test Banyak-'.sprintf("%03d", $i),
+           'pool_id' => rand(1,2),
+           'exported' => true,
+           'show_available' => false,
+       ]);
+         DB::table('exported_deliveries')->insert([
+            'delivery_id' => $i,
+            'final_rit' => rand(1,10),
+            'final_tonnage' => substr(str_shuffle("0123456789"), 0, 4)
+        ]);
+      }
+      // DB::table('deliveries')->insert([
+      //     'code' => 'DOMCS',
+      //     'admin' => '1',
+      //     'sender_name' => 'PT. Mencari Cinta Sejati',
+      //     'recipient_name' => 'PT. Proyek gagal',
+      //     'sender_email' => 'pengirim@gmail.com',
+      //     'recipient_email' => 'penerima@gmail.com',
+      //     'freight_load' => 'Batu Ginjal',
+      //     'customer_name' => 'saya',
+      // ]);
+      // DB::table('delivery_orders')->insert([
+      //     'delivery_id' => 1,
+      //     'do_number' => 'DOMCS001',
+      //     'date' => Carbon::now(),
+      //     'driver_id' => 1,
+      //     'fare' => 100000,
+      //     'status' => 2,
+      //     'tonnage' => 200
+      // ]);
+      // DB::table('delivery_orders')->insert([
+      //     'delivery_id' => 1,
+      //     'do_number' => 'DOMCS002',
+      //     'date' => Carbon::now(),
+      //     'driver_id' => 2,
+      //     'fare' => 100000,
+      //     'status' => 2,
+      //     'tonnage' => 200
+      // ]);
+      // DB::table('deliveries')->insert([
+      //     'code' => 'DOPCSS',
+      //     'admin' => '1',
+      //     'sender_name' => 'PT. Pencari Cinta Sejati Dan Setia Selamanya',
+      //     'recipient_name' => 'PT. Pembasmi Cheat dan Berdoa',
+      //     'recipient_address' => 'Jl. alay',
+      //     'sender_email' => 'pengirim@gmail.com',
+      //     'freight_load' => 'Minyak Firdaus',
+      //     'customer_name' => 'anda',
+      // ]);
+      // DB::table('delivery_orders')->insert([
+      //     'delivery_id' => 2,
+      //     'do_number' => 'DOPCSS001',
+      //     'date' => Carbon::now(),
+      //     'driver_id' => 3,
+      //     'fare' => 100000,
+      //     'status' => 2,
+      //     'tonnage' => 200
+      // ]);
+      // DB::table('delivery_orders')->insert([
+      //     'delivery_id' => 2,
+      //     'do_number' => 'DOPCSS002',
+      //     'date' => Carbon::now(),
+      //     'driver_id' => 4,
+      //     'fare' => 100000,
+      //     'status' => 2,
+      //     'tonnage' => 200
+      // ]);
 
     }
 }

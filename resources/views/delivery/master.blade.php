@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="card-body">
-      <table class="table table-bordered table-striped datatable-responsive">
+      <table class="table table-bordered table-striped" id="delivery-master-table">
         <thead class="bg-secondary">
           <th>Tongkang</th>
           <th>Tanggal</th>
@@ -28,7 +28,7 @@
           <th>Tindakan</th>
         </thead>
         <tbody>
-          @foreach ($data as $d)
+          {{-- @foreach ($data as $d)
             <tr>
               <td><b>{{$d->code}}</b></td>
               <td>{{Carbon\Carbon::parse($d->created_at)->format('d-m-Y')}}</td>
@@ -45,7 +45,7 @@
                 </a>
               </td>
             </tr>
-          @endforeach
+          @endforeach --}}
         </tbody>
       </table>
     </div>

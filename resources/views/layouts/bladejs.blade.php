@@ -43,6 +43,10 @@ $(".url-redirect").on('click',function(e) {
   $('.page-loader').addClass('show');
   setTimeout(function(){ window.location.href = url }, 100);
 });
+$(".url-unavailable").on('click',function(e) {
+  e.preventDefault();
+  Swal.fire("Dalam Pengembangan","fitur ini belum tersedia!",'warning')
+});
 $("#transportSelect").on('change',function(event)
 {
     const url = "/tracking/ajaxCall/drivers&transport=" + $(this).val();
@@ -189,6 +193,37 @@ $("#deliverySelect").on('change',function() {
       newDOChild(id,code,currRow);
   });
 });
+
+var table = $('#delivery-master-table').DataTable({
+        "processing": true,
+        "language" : '<div class="loader-overlay show page-loader"></div><div class="spanner show page-loader"><div class="loader"></div>  <p>Mohon menungggu, halaman sedang dimuat.</p></div>',
+        "serverSide": true,
+        "responsive": true,
+        "ajax": {
+            "url" : '{{route('get_deliveries_json')}}',
+            "dataType" : 'json',
+            "type" : 'post',
+            "data" : {_token : '{{csrf_token()}}'}
+        },
+        "columns": [
+            {"data" : "code"},
+            {"data" : "date"},
+            {"data" : "customer"},
+            {"data" : "pool"},
+            {"data" : "sender"},
+            {"data" : "recipient"},
+            {"data" : "freight_load"},
+            {"data" : "tonnage"},
+            {"data" : "rit"},
+            {"data" : "options"},
+        ],
+        columnDefs: [
+        {
+            targets: [0,1,2,6,8],
+            className: 'align-middle'
+        }]
+    });
+
 function newDOChild(id,code,index)
 {
   var url = "/tracking/ajaxCall/newDOLine&id="+id+"&code="+code+"&index="+index;

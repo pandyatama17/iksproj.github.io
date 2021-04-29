@@ -16,7 +16,8 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "2.*",
         "maatwebsite/excel": "^3.1",
-        "phpoffice/phpspreadsheet": "^1.17"
+        "phpoffice/phpspreadsheet": "^1.17",
+        "silviolleite/laravelpwa": "^2.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

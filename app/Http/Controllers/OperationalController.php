@@ -9,6 +9,10 @@ use App\Driver;
 use App\Pool;
 use App\VehicleOwner;
 use App\Ref;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DeliveryExport;
+
 use DB;
 use Auth;
 use Carbon\Carbon;
@@ -209,5 +213,18 @@ class OperationalController extends Controller
         }
         // return $values;
         return redirect()->route('show_delivery',$r->delivery_id);
+    }
+    public function ExportDelivery(Request $r)
+    {
+      // $data = Delivery::leftJoin('pools as p', 'p.id','=','deliveries.pool_id')->where('deliveries.id')->select('deliveries.*','p.name as pool')->get();
+      $data = Delivery::find($r->id);
+      try {
+        $data->exported = true;
+        $data->save();
+        return Excel::Download(new DeliveryExport($r->id), $data->code."-".Carbon::now()->format('dmY').".xlsx");
+      } catch (\Exception $e) {
+        echo "gagal";
+      }
+      // return (new DeliveryExport)->forDelivery($r->id)->download($data->code."-".Carbon::now()->format('dmY').".xlsx");
     }
 }

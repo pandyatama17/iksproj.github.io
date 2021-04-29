@@ -45,4 +45,30 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/tracking/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');
   Route::post('/tracking/delivery/order/form/submit','OperationalController@storeDeliveryOrder2')->name('submit_do2');
   Route::post('/tracking/delivery/new/submit','OperationalController@storeDelivery')->name('submit_delivery');
+
+  // export routes
+  Route::get('/tracking/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
+
+
+  //tests
+  Route::get('/test/delivery_export/{id}', function($id)
+  {
+    $data = \App\Delivery::where('deliveries.id',$id)
+                      ->leftJoin('users as u','deliveries.admin','=','u.id')
+                      ->leftJoin('pools as p', 'p.id','=','deliveries.pool_id')
+                      ->select('deliveries.*','u.name as admin', 'p.name as pool')
+                      ->first();
+    $details = \DB::table('delivery_orders as do')
+          ->where('do.delivery_id', $id)
+          ->leftJoin('drivers as dr', 'do.driver_id' , '=' , 'dr.id')
+          ->leftJoin('vehicle_owners as vh', 'dr.id','=','vh.id')
+          ->select('do.id as do_id', 'do.*','dr.name as driver', 'vh.name as transport')
+          ->get();
+    $transports = \App\VehicleOwner::all();
+      // dd($data);
+      return view('exports.delivery')
+              ->with('data', $data)
+              ->with('transports', $transports)
+              ->with('details', $details);
+  });
 });

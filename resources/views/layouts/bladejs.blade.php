@@ -171,6 +171,7 @@ $("#deliverySelect").on('change',function() {
     success: function(response) {
       $("#adminTxtFalse").val(response.admin);
       $("#customerNameTxtFalse").val(response.customer_name);
+      $("#freightLoadTxtFalse").val(response.freight_load);
       $("#poolTxtFalse").val(response.pool);
       $("#dateTxtFalse").val(response.date);
       $(".false-input").prop('disabled',true);
@@ -193,6 +194,40 @@ $("#deliverySelect").on('change',function() {
       newDOChild(id,code,currRow);
   });
 });
+$('body').on('click','a.finish-delivery',function(event) {
+    event.preventDefault();
+    Swal.fire({
+      title : 'Konfirmasi Penyelesaian',
+      html  : 'apakah anda yakin ingin menyelesaikan rekapan <b>' + $(this).data('code') + '</b>?',
+      icon  : 'warning',
+      showCancelButton  : true,
+      cancelButtonColor : '#DC143C',
+      cancelButtonText  : "Batalkan"
+    }).then((confirm) => {
+      if(confirm.isConfirmed){
+        if ($(this).data('exported') == true)
+        {
+          Swal.fire('Belom bisa wkjwkw', '', 'success')
+        }
+        else {
+          Swal.fire({
+            title : 'Belum Diexport',
+            text  : 'Rekapan ini belum di export, silahkan lakukan export terlebih dahulu, atau pilih "Export & Selesaikan"',
+            icon  : 'warning',
+            showCancelButton  : true,
+            cancelButtonColor : '#DC143C',
+            cancelButtonText  : "Batalkan",
+            confirmButtonText : "Export & Selesaikan",
+            // showDenyButton    : true
+          }).then((confirm) => {
+            if(confirm.isConfirmed){
+              Swal.fire('Belom bisa wkjwkw', '', 'success');
+            }
+          });
+        }
+      }
+    });
+})
 
 var table = $('#delivery-master-table').DataTable({
         "processing": true,

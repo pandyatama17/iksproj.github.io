@@ -19,9 +19,9 @@
         <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
           <i class="fas fa-plus"></i> <span class="d-none d-md-inline">Tambah Surat</span>
         </button>
-        <button type="button" class="btn btn-tool bg-success" onclick="Swal.fire('belum ada')">
+        <a type="button" class="btn btn-tool bg-success" href="{{route('export_delivery',$data->id)}}">
           <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Import Excel</span>
-        </button>
+        </a>
         {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
           <i class="fas fa-minus"></i>
         </button>

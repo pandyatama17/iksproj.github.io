@@ -147,15 +147,29 @@ class AjaxController extends Controller
           {
             $nestedData['tonnage'] = array_sum(DeliveryOrder::where('delivery_id',$delivery->id)->pluck('tonnage')->toArray())."Kg.";
             $nestedData['rit'] = '<span class="badge badge-info">'.count(DeliveryOrder::where('delivery_id',$delivery->id)->get()).' Rit</span>';
-            $nestedData['options'] = '<a href="'.route('show_delivery',$delivery->id).'" class="btn btn-sm btn-primary url-redirect">
+            // $nestedData['options'] = '<a href="'.route('show_delivery',$delivery->id).'" class="btn btn-sm btn-primary url-redirect">
+            //                             <i class="fa fa-search"></i> | Surat Jalan
+            //                           </a>
+            //                           <div class="clearfix" style="margin:5px;"></div>
+            //                           <a href="#" class="btn btn-sm btn-success url-redirect url-unavailable">
+            //                             <i class="fa fa-file-excel"></i> | Import Excel
+            //                           </a>
+            //                           <div class="clearfix" style="margin:5px;"></div>
+            //                           <a href="#" class="btn btn-sm btn-danger url-redirect url-unavailable">
+            //                             <i class="fa fa-flag-checkered"></i> | Selesaikan Rekap
+            //                           </a>';
+            $nestedData['options'] ='<a href="'.route('show_delivery',$delivery->id).'" class="text-primary url-redirect">
                                         <i class="fa fa-search"></i> | Surat Jalan
-                                      </a>
-                                      <div class="clearfix" style="margin:5px;"></div>
-                                      <a href="#" class="btn btn-sm btn-success url-redirect url-unavailable">
-                                        <i class="fa fa-file-excel"></i> | Buat Excel
-                                      </a>
-                                      <div class="clearfix" style="margin:5px;"></div>
-                                      <a href="#" class="btn btn-sm btn-danger url-redirect url-unavailable">
+                                      </a>';
+            // if ($delivery->exported == false) {
+              $nestedData['options'] .='<br>
+                                        <a href="'.route('export_delivery',$delivery->id).'" class="text-success url-redirect url-unavailable">
+                                          <i class="fa fa-file-excel"></i> | Import Excel
+                                        </a>';
+
+            // }
+            $nestedData['options'] .= '<br>
+                                      <a href="#" class="text-danger url-redirect url-unavailable finish-delivery" data-exported="'.$delivery->exported.'" data-code="'.$delivery->code.'">
                                         <i class="fa fa-flag-checkered"></i> | Selesaikan Rekap
                                       </a>';
 
@@ -165,7 +179,7 @@ class AjaxController extends Controller
             $nestedData['rit'] = '<span class="badge badge-secondary">'.ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_rit.' Rit</span>';
             $nestedData['options'] = '<small><i> no action available </i></small>
                                       <br>
-                                      <small class="text-success"><i>data ini sudah dibuat excel</i></small>
+                                      <small class="text-success"><i>data ini sudah diImport Excel</i></small>
                                       <br>
                                       <small class="text-primary"><i>rekap ini telah selesai</i></small>
                                     ';

@@ -16,9 +16,11 @@
     <div class="card-header">
       <h5 class="card-title">Tongkang {{$data->code}} ({{$data->pool}})</h5>
       <div class="card-tools">
-        <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
-          <i class="fas fa-plus"></i> <span class="d-none d-md-inline">Tambah Surat</span>
-        </button>
+        @if ($data->show_available)
+          <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
+            <i class="fas fa-plus"></i> <span class="d-none d-md-inline">Tambah Surat</span>
+          </button>
+        @endif
         <a type="button" class="btn btn-tool bg-success" href="{{route('export_delivery',$data->id)}}">
           <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Import Excel</span>
         </a>
@@ -126,9 +128,11 @@
     </div>
     <!-- /.card-body -->
     <div class="card-footer d-block d-md-none">
-      <button type="button" class="btn bg-navy" data-toggle="modal" data-target="#addDOModal">
-        <i class="fas fa-plus"></i> Tambah Surat
-      </button>
+      @if ($data->show_available)
+        <button type="button" class="btn bg-navy" data-toggle="modal" data-target="#addDOModal">
+          <i class="fas fa-plus"></i> Tambah Surat
+        </button>
+      @endif
       <button type="button" class="btn bg-success" onclick="Swal.fire('belum ada')">
         <i class="fas fa-file-excel"></i> Import Excel
       </button>

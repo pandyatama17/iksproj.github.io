@@ -207,7 +207,24 @@ $('body').on('click','a.finish-delivery',function(event) {
       if(confirm.isConfirmed){
         if ($(this).data('exported') == true)
         {
-          Swal.fire('Belom bisa wkjwkw', '', 'success')
+          // Swal.fire('Belom bisa wkjwkw', '', 'success')
+          Swal.fire({
+            title : 'Konfirmasi',
+            html  : 'ketik "selesai" untuk mengkonfirmasi penyelesaian rekap <b>' + $(this).data('code') + '</b>',
+            input : 'text',
+            showCancelButton : true,
+            cancelButtonText : 'Batalkan',
+            preConfirm  : (hapus) =>{
+            if (hapus.toUpperCase() == 'SELESAI') {
+              // Swal.fire('Belom bisa wkjwkw', '', 'success')
+              var url = "/tracking/delivery/finish&id=" + $(this).data('id');
+              $(".page-loader").addClass('show');
+              window.location.href = url;
+            }
+            else if (hapus.toUpperCase() != 'SELESAI') {
+              Swal.fire('Inputan anda salah!', '', 'error');
+            }}
+          })
         }
         else {
           Swal.fire({

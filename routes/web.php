@@ -48,6 +48,7 @@ Route::group(['middleware'=>['auth']], function()
 
   // export routes
   Route::get('/tracking/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
+  Route::get('/tracking/delivery/finish&id={id}', 'OperationalController@finishDelivery')->name('finish_delivery');
 
 
   //tests

@@ -9,6 +9,7 @@ use App\Driver;
 use App\Pool;
 use App\VehicleOwner;
 use App\Ref;
+use App\ExportedDelivery;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DeliveryExport;
@@ -226,5 +227,49 @@ class OperationalController extends Controller
         echo "gagal";
       }
       // return (new DeliveryExport)->forDelivery($r->id)->download($data->code."-".Carbon::now()->format('dmY').".xlsx");
+    }
+    public function finishDelivery($id)
+    {
+      $delivery = Delivery::find($id);
+      $dos = DeliveryOrder::where('delivery_id',$id);
+      $exported = new ExportedDelivery;
+
+      $exported->delivery_id = $id;
+      $ft = 0;
+      $ff = 0;
+      $fr = 0;
+      foreach ($dos->get() as $do) {
+        $ft += $do->tonnage;
+        $ff += $do->fare;
+      }
+      $fr = count($dos->get());
+
+      $exported->final_tonnage = $ft;
+      $exported->final_fare = $ff;
+      $exported->final_rit = $fr;
+
+      if ($delivery->exported)
+      {
+
+              $delivery->show_available = false;
+              try {
+                $delivery->save();
+                $exported->save();
+                $dos->delete();
+                session()->flash('message-type', 'success');
+                session()->flash('message-title', 'Berhasil');
+                session()->flash('message', 'Rekapan '.$delivery->code.' berhasil diselesaikan!');
+              } catch (\Exception $e) {
+                session()->flash('message-type', 'error');
+                session()->flash('message-title', 'Gagal');
+                session()->flash('message', 'Rekapan gagal di selesaikan! trace : '.$e->getMessage());
+              }
+      }
+      else {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Rekapan gagal di selesaikan! rekapan ini belum di export ');
+      }
+      return redirect()->route('master_data');
     }
 }

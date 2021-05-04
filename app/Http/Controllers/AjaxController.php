@@ -166,10 +166,12 @@ class AjaxController extends Controller
                                         <a href="'.route('export_delivery',$delivery->id).'" class="text-success url-redirect url-unavailable">
                                           <i class="fa fa-file-excel"></i> | Import Excel
                                         </a>';
-
-            // }
+            if ($delivery->exported) {
+              $nestedData['options'] .= '<br>
+                                        <small class="text-success"><i>Excel terakhir :  '.$delivery->updated_at.' </i></small>';
+            }
             $nestedData['options'] .= '<br>
-                                      <a href="#" class="text-danger url-redirect url-unavailable finish-delivery" data-exported="'.$delivery->exported.'" data-code="'.$delivery->code.'">
+                                      <a href="#" class="text-danger url-redirect url-unavailable finish-delivery" data-id="'.$delivery->id.'" data-exported="'.$delivery->exported.'" data-code="'.$delivery->code.'">
                                         <i class="fa fa-flag-checkered"></i> | Selesaikan Rekap
                                       </a>';
 
@@ -177,11 +179,9 @@ class AjaxController extends Controller
           else {
             $nestedData['tonnage'] = ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_tonnage."Kg.";
             $nestedData['rit'] = '<span class="badge badge-secondary">'.ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_rit.' Rit</span>';
-            $nestedData['options'] = '<small><i> no action available </i></small>
+            $nestedData['options'] = '<small class="text-success"><i>data ini sudah diImport Excel</i></small>
                                       <br>
-                                      <small class="text-success"><i>data ini sudah diImport Excel</i></small>
-                                      <br>
-                                      <small class="text-primary"><i>rekap ini telah selesai</i></small>
+                                      <small class="text-primary"><i>diselesaikan tanggal '.$delivery->created_at.'</i></small>
                                     ';
           }
           $data[] = $nestedData;

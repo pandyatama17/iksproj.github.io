@@ -138,10 +138,10 @@
     @if (Auth::user()->id < 2)
       <li class="nav-header">MANAJEMEN</li>
       <li class="nav-item">
-        <a href="#" class="nav-link text-secondary">
+        <a href="{{route('show_transports')}}" class="nav-link">
           {{-- <i class="nav-icon fa fa-people-carry"></i> --}}
           <i class="nav-icon fa fa-hard-hat"></i>
-          <p>Supir & Transport</p>
+          <p>Sopir & Transport</p>
         </a>
       </li>
       <li class="nav-item">

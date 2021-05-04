@@ -199,4 +199,12 @@ class AjaxController extends Controller
       echo json_encode($json_data);
       // echo json_encode($data);
     }
+
+    public function showDriversByTransport($transport_id)
+    {
+      $transport = VehicleOwner::find($transport_id);
+      $drivers = Driver::where('owner_id',$transport_id)->get();
+
+      return view('includes.driverslist')->with('drivers', $drivers)->with('transport', $transport);
+    }
 }

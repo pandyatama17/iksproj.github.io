@@ -23,6 +23,16 @@ $(document).ready(function()
   $('.datatable-responsive').DataTable({
     "responsive": true
   });
+  $('.datatable-sm').dataTable({
+    "dom": '<"pull-left"f><"pull-right"l>tip',
+    "bPaginate": true,
+    "pageLength" : 5,
+    "responsive" : false,
+    "bLengthChange": false,
+    "bFilter": true,
+    "bInfo": false,
+    "bAutoWidth": false
+  });
   $(".datepicker").datepicker({
     calendarWeeks: true,
     todayHighlight: true,
@@ -244,7 +254,21 @@ $('body').on('click','a.finish-delivery',function(event) {
         }
       }
     });
-})
+});
+$(".ds-url").on('click',function(event){
+  event.preventDefault();
+  var transport_id = $(this).data('id');
+  $.get({
+    url : $(this).attr('href'),
+    dataType : 'html',
+    beforeSend : pageload(),
+    success : function(response) {
+      $("#driversCol").html(response);
+      $("#transportID").val(transport_id);
+      pageload();
+    }
+  })
+});
 
 var table = $('#delivery-master-table').DataTable({
         "processing": true,
@@ -276,6 +300,22 @@ var table = $('#delivery-master-table').DataTable({
         }]
     });
 
+function pageload()
+{
+    if($(".page-loader").hasClass('show'))
+    {
+        $(".page-loader").removeClass('show');
+    }
+    else {
+        $(".page-loader").addClass('show');
+    }
+    // if (action == 'show'){
+    //   $(".page-loader").addClass('show');
+    // }
+    // else {
+    //   $(".page-loader").removeClass('show');
+    // }
+}
 function newDOChild(id,code,index)
 {
   var url = "/tracking/ajaxCall/newDOLine&id="+id+"&code="+code+"&index="+index;

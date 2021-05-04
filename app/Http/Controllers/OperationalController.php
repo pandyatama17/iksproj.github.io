@@ -150,6 +150,8 @@ class OperationalController extends Controller
             $ref = new Ref;
             $ref->head = $value['head'];
             $ref->body = $value['body'];
+            $ref->created_at = Carbon::now();
+            $ref->updated_at = Carbon::now();
             try {
               $ref->save();
             }

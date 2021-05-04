@@ -27,6 +27,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/tracking/delivery/show&id={id}', 'OperationalController@showDeliveryOrders')->name('show_delivery');
   Route::get('/tracking/delivery_orders/master', 'OperationalController@showDeliveryOrdersMaster')->name('do_master_data');
   Route::get('/tracking/delivery_orders/pool&id={pool_id}', 'OperationalController@showDeliveryOrderByPool')->name('do_data');
+  Route::get('/management/transports', 'ManagementController@showTransports')->name('show_transports');
 
   // form routes
   Route::get('/tracking/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
@@ -40,11 +41,14 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/tracking/ajaxCall/getDeliveryDetails&id={id}', 'AjaxController@getDelivery');
   Route::get('/tracking/ajaxCall/newDOLine&id={id}&code={code}&index={index}', 'AjaxController@newDOLine');
   Route::post('/tracking/ajaxCall/getDeliveriesJSON', 'AjaxController@getDeliveries')->name('get_deliveries_json');
+  Route::get('/management/ajaxCall/drivers&transports={transport}', 'AjaxController@showDriversByTransport')->name('show_drivers_by');
+
 
   // post routes
   Route::post('/tracking/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');
   Route::post('/tracking/delivery/order/form/submit','OperationalController@storeDeliveryOrder2')->name('submit_do2');
   Route::post('/tracking/delivery/new/submit','OperationalController@storeDelivery')->name('submit_delivery');
+  Route::post('/management/driver/new/submit','ManagementController@storeDriver')->name('submit_driver');
 
   // export routes
   Route::get('/tracking/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');

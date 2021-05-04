@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class DataSeeder extends Seeder
@@ -12,25 +13,32 @@ class DataSeeder extends Seeder
      */
     public function run()
     {
-      for ($i=201; $i <=1000 ; $i++) {
-        DB::table('deliveries')->insert([
-          'id' => $i,
-           'code' => 'Banyak-'.sprintf("%03d", $i),
-           'admin' => '1',
-           'sender_name' => 'Snd Test Banyak-'.sprintf("%03d", $i),
-           'recipient_name' => 'Rec Test Banyak-'.sprintf("%03d", $i),
-           'freight_load' => 'Test Purposes Only',
-           'customer_name' => 'Cust Test Banyak-'.sprintf("%03d", $i),
-           'pool_id' => rand(1,2),
-           'exported' => true,
-           'show_available' => false,
-       ]);
-         DB::table('exported_deliveries')->insert([
-            'delivery_id' => $i,
-            'final_rit' => rand(1,10),
-            'final_tonnage' => substr(str_shuffle("0123456789"), 0, 4)
-        ]);
+      for ($i=3; $i <=50 ; $i++) {
+      //   DB::table('deliveries')->insert([
+      //     'id' => $i,
+      //      'code' => 'Banyak-'.sprintf("%03d", $i),
+      //      'admin' => '1',
+      //      'sender_name' => 'Snd Test Banyak-'.sprintf("%03d", $i),
+      //      'recipient_name' => 'Rec Test Banyak-'.sprintf("%03d", $i),
+      //      'freight_load' => 'Test Purposes Only',
+      //      'customer_name' => 'Cust Test Banyak-'.sprintf("%03d", $i),
+      //      'pool_id' => rand(1,2),
+      //      'exported' => true,
+      //      'show_available' => false,
+      //  ]);
+      //    DB::table('exported_deliveries')->insert([
+      //       'delivery_id' => $i,
+      //       'final_rit' => rand(1,10),
+      //       'final_tonnage' => substr(str_shuffle("0123456789"), 0, 4)
+      //   ]);
+            DB::table('vehicle_owners')->insert([
+                'name' =>strtoupper(Str::random(3)),
+                'email' => Str::random(10).'@gmail.com',
+                'phone' => rand(1,12),
+                'address' => Str::random(100)
+            ]);
       }
+
       // DB::table('deliveries')->insert([
       //     'code' => 'DOMCS',
       //     'admin' => '1',

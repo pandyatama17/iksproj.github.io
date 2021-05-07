@@ -1,5 +1,5 @@
 @extends('layouts.wrapper')
-@section('title','Data Surat Jalan '.$data->code)
+@section('title','Tongkang '.$data->code)
 @section('content')
   <style media="screen">
   .input-group .select2-selection__rendered {
@@ -34,10 +34,10 @@
     </div>
     <div class="card-body">
       <div class="container-fluid d-none d-md-block">
-        <div class="row">
+        {{-- <div class="row">
           <div class=" offset-lg-1 offset-sm-0 offset-xs-0 col-lg-2 col-sm-4 col-xs-4"><h5>Tongkang</h5></div>
           <div class="col-lg-9 col-sm-6"><h5>: {{$data->code}}</h5></div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class=" offset-lg-1 offset-sm-0 offset-xs-0 col-lg-2 col-sm-4 col-xs-4"><h5>Customer</h5></div>
           <div class="col-lg-9 col-sm-6"><h5>: {{$data->customer_name}}</h5></div>
@@ -71,10 +71,10 @@
           <div class="col-3"><b>Customer</b></div>
           <div class="col-9"><b>:</b> {{$data->customer_name}}</div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-3"><b>Tongkang</b></div>
           <div class="col-9"><b>:</b> {{$data->code}}</div>
-        </div>
+        </div> --}}
         <div class="row">
           <div class="col-3"><b>Muatan</b></div>
           <div class="col-9"><b>:</b> {{$data->freight_load}}</div>
@@ -115,7 +115,13 @@
               <tr>
                 <td><b>{{$d->do_number}}</b> @if ($d->blend_ref_id) <small>(Blending {{\App\DeliveryOrder::find($d->blend_ref_id)->do_number}})</small> @endif </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
-                <td>{{$d->driver}}</td>
+                <td>
+                  @if ($d->driver_name)
+                    {{$d->driver_name}}
+                  @else
+                    {{$d->driver}}
+                  @endif
+                </td>
                 <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
                 <td>{{$d->tonnage}} Kg.</td>
                 <td>{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
@@ -199,7 +205,7 @@
                 <input type="text" class="form-control datepicker" name="date" id="dateTxt" autocomplete="off">
               </div>
             </div> --}}
-            <div class="col-lg-2 col-5">
+            <div class="col-lg-3 col-5">
               <div class="form-group">
                 <label for="">Tonase</label>
                 <div class="input-group">
@@ -224,16 +230,18 @@
               </select>
             </div>
             <div class="col-5" id="driverCol">
-              <label for="">Sopir</label>
+              <label for="">Mobil</label>
               <br>
               <select class="select2 form-control" style="width:100%" disabled>
-                <option selected disabled> Pilih sopir... </option>
+                <option selected disabled> Pilih mobil... </option>
               </select>
             </div>
             <div class="col-3">
               <div class="form-group">
-                <label>No. Plat</label>
-                <input type="text" readonly value="-" id="plateNumberTxt" name="license_plate_no" class="form-control">
+                <label>Sopir</label>
+                <input type="hidden" id="driverIDHidTXT" name="driver_id">
+                <input type="hidden" id="driverLicenseHidTXT" name="license_plate_no">
+                <input type="text" readonly value="-" id="driverNameTxt" name="driver_name" class="form-control">
               </div>
             </div>
           </div>

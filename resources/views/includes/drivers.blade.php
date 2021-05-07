@@ -1,9 +1,9 @@
-<label for="">Sopir</label>
+<label for="">Mobil</label>
 <br>
-<select class="select2 form-control" name="driver" id="driverSelect" style="width:100%">
-  <option selected disabled> Pilih sopir... </option>
+<select class="select2 form-control" name="license_plate_no" id="driverSelect" style="width:100%">
+  <option selected disabled> Pilih Mobil... </option>
   @foreach ($drivers as $dr)
-    <option value="{{$dr->id}}">{{$dr->name}}</option>
+    <option value="{{$dr->id}}">{{$dr->license_plate_no}}</option>
   @endforeach
 </select>
 <script type="text/javascript">
@@ -17,8 +17,11 @@ $("#driverSelect").on('change',function(event)
       dataType: 'json',
       success: function(response)
       {
-        $("#plateNumberTxt").val(response.license_plate_no);
-        $("#plateNumberTxt").attr('readonly',false);
+        console.log(response);
+        $("#driverIDHidTXT").val(response.id);
+        $("#driverLicenseHidTXT").val(response.license_plate_no);
+        $("#driverNameTxt").val(response.name);
+        $("#driverNameTxt").attr('readonly',false);
       }
     })
 });

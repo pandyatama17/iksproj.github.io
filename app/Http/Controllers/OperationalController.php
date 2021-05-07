@@ -93,8 +93,9 @@ class OperationalController extends Controller
 
         $do->delivery_id = $r->delivery_id;
         $do->do_number = $r->do_number;
-        $do->driver_id = $r->driver;
+        $do->driver_id = $r->driver_id;
         $do->license_plate_no = $r->license_plate_no;
+        $do->driver_name = $r->driver_name;
         // $do->date = Carbon::parse($r->date);
         if ($r->blending_ref_id)
         {
@@ -103,6 +104,7 @@ class OperationalController extends Controller
         $do->tonnage = $r->tonnage;
         $do->fare = $r->fare;
         $do->status = 2;
+        // return $do;
 
         try {
           $do->save();
@@ -194,6 +196,7 @@ class OperationalController extends Controller
           $do->do_number = $r->do_number[$i];
           $do->driver_id = $r->driver_id[$i];
           $do->license_plate_no = $r->license_plate_no[$i];
+          $do->driver_name = $r->driver_name[$i];
           // $do->date = Carbon::parse($r->date);
           if ($r->input('blending_ref_id-'.$i))
           {

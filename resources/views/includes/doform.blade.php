@@ -60,16 +60,18 @@
         </select>
       </div>
       <div class="col-6 col-lg-5 " id="driverCol{{$index}}">
-        <label for="">Sopir</label>
+        <label for="">Mobil</label>
         <br>
-        <select class="select2 form-control" style="width:100%" id="driverSelect{{$index}}" disabled name="driver_id[]">
-          <option selected disabled> Pilih sopir... </option>
+        <select class="select2 form-control" style="width:100%" id="driverSelect{{$index}}" disabled>
+          <option selected disabled> Pilih Mobil... </option>
         </select>
       </div>
       <div class="col-6 col-lg-3">
         <div class="form-group">
-          <label>No. Plat</label>
-          <input type="text" readonly value="-" id="plateNumberTxt{{$index}}" name="license_plate_no[]" class="form-control">
+          <label>Sopir</label>
+          <input type="hidden" id="driverIDHidTXT{{$index}}" name="driver_id[]">
+          <input type="hidden" id="driverLicenseHidTXT{{$index}}" name="license_plate_no[]">
+          <input type="text" readonly value="-" id="driverNameTxt{{$index}}" name="driver_name[]" class="form-control">
         </div>
       </div>
     </div>
@@ -130,7 +132,7 @@ $("#transportSelect{{$index}}").on('change',function(event)
         $.each(response, function (i, dr) {
             $('#driverSelect{{$index}}').append($('<option>', {
                 value: dr.id,
-                text : dr.name
+                text : dr.license_plate_no
             }));
         });
       }
@@ -145,8 +147,13 @@ $("#driverSelect{{$index}}").on('change',function(event)
       dataType: 'json',
       success: function(response)
       {
-        $("#plateNumberTxt{{$index}}").val(response.license_plate_no);
-        $("#plateNumberTxt{{$index}}").attr('readonly',false);
+        {{--$("#plateNumberTxt{{$index}}").val(response.license_plate_no);
+        $("#plateNumberTxt{{$index}}").attr('readonly',false);--}}
+        console.log(response);
+        $("#driverIDHidTXT{{$index}}").val(response.id);
+        $("#driverLicenseHidTXT{{$index}}").val(response.license_plate_no);
+        $("#driverNameTxt{{$index}}").val(response.name);
+        $("#driverNameTxt{{$index}}").attr('readonly',false);
       }
     })
 });

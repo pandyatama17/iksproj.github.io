@@ -270,6 +270,24 @@ $(".ds-url").on('click',function(event){
   })
 });
 
+$(".triggerEditUserInfo").on('click',function(event)
+{
+  var data = $(this).data();
+  pageload();
+  $("#userID").val(data.id);
+  $("#txtUserName").val(data.name);
+  $("#txtUserEmail").val(data.email);
+  if (data.pool == 0) {
+    $("#selectPool").attr('disabled','true');
+  }
+  else {
+    $("#selectPool").removeAttr('disabled');
+
+  }
+  pageload();
+  $("#userInfoModal").modal('show');
+});
+
 var table = $('#delivery-master-table').DataTable({
         "processing": true,
         "language" : '<div class="loader-overlay show page-loader"></div><div class="spanner show page-loader"><div class="loader"></div>  <p>Mohon menungggu, halaman sedang dimuat.</p></div>',

@@ -118,7 +118,7 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       {{-- <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> --}}
-      <span class="brand-text font-weight-light">IKS Tracking</span>
+      <span class="brand-text font-weight-light">IKS Trucking</span>
     </a>
 
     <!-- Sidebar -->
@@ -140,7 +140,18 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/master">Rekap</a></li>
+              <li class="breadcrumb-item">
+                @if(str_contains(url()->current(), '/management'))
+                  <a href="/management/transports">Manajemen</a>
+                @else
+                  @if (str_contains(url()->current(), '/tracking/delivery_orders'))
+                    <a href="/tracking/delivery_orders/master">Surat Jalan</a>
+                  @else
+                    <a href="/tracking/deliveries/master">Rekap</a>
+                  @endif
+                @endif
+              </li>
+
               <li class="breadcrumb-item active">@yield('title')</li>
             </ol>
           </div>

@@ -10,6 +10,7 @@ use App\Pool;
 use App\VehicleOwner;
 use App\Ref;
 use App\ExportedDelivery;
+use App\User;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DeliveryExport;
@@ -49,6 +50,15 @@ class ManagementController extends Controller
           session()->flash('message', 'Sopir gagal ditambahkan! trace : '.$e->getMessage());
         }
         return redirect()->route('show_transports');
+    }
+    public function showUsers()
+    {
+      // $users = User::leftJoin('pools','pools.id','=','users.pool_id')
+      //                 ->select('pools.*', 'pool.name as pool')
+      //                 ->get();
+      $users = User::all();
 
+      return view('management.users')
+              ->with('data', $users);
     }
 }

@@ -28,6 +28,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/tracking/delivery_orders/master', 'OperationalController@showDeliveryOrdersMaster')->name('do_master_data');
   Route::get('/tracking/delivery_orders/pool&id={pool_id}', 'OperationalController@showDeliveryOrderByPool')->name('do_data');
   Route::get('/management/transports', 'ManagementController@showTransports')->name('show_transports');
+  Route::get('/management/users', 'ManagementController@showUsers')->name('show_users');
 
   // form routes
   Route::get('/tracking/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');

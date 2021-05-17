@@ -24,11 +24,14 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/', 'OperationalController@index')->name('index');
   Route::get('/tracking/deliveries/master', 'OperationalController@index')->name('master_data');
   Route::get('/tracking/pool&id={pool_id}', 'OperationalController@showDeliveriesByPool')->name('deliveries_data');
+  Route::get('/tracking/status&id={status}', 'OperationalController@showDeliveriesByStatus')->name('deliveries_wstat');
   Route::get('/tracking/delivery/show&id={id}', 'OperationalController@showDeliveryOrders')->name('show_delivery');
   Route::get('/tracking/delivery_orders/master', 'OperationalController@showDeliveryOrdersMaster')->name('do_master_data');
   Route::get('/tracking/delivery_orders/pool&id={pool_id}', 'OperationalController@showDeliveryOrderByPool')->name('do_data');
   Route::get('/management/transports', 'ManagementController@showTransports')->name('show_transports');
   Route::get('/management/users', 'ManagementController@showUsers')->name('show_users');
+  Route::get('/management/pools', 'ManagementController@showPools')->name('show_pools');
+  Route::get('/management/journaling', 'ManagementController@showJournal')->name('show_journal');
 
   // form routes
   Route::get('/tracking/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
@@ -41,8 +44,10 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/tracking/ajaxCall/getReference&header={head}', 'AjaxController@getReference');
   Route::get('/tracking/ajaxCall/getDeliveryDetails&id={id}', 'AjaxController@getDelivery');
   Route::get('/tracking/ajaxCall/newDOLine&id={id}&code={code}&index={index}', 'AjaxController@newDOLine');
+  // Route::post('/tracking/ajaxCall/getDeliveriesJSON&type={type}&action={action}', 'AjaxController@getDeliveriesWithParams')->name('get_deliveries_json_wparams');
   Route::post('/tracking/ajaxCall/getDeliveriesJSON', 'AjaxController@getDeliveries')->name('get_deliveries_json');
   Route::get('/management/ajaxCall/drivers&transports={transport}', 'AjaxController@showDriversByTransport')->name('show_drivers_by');
+  Route::post('/management/ajaxCall/getJournal', 'AjaxController@getJournal')->name('get_journal');
 
 
   // post routes

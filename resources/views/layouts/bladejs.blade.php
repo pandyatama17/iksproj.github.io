@@ -45,6 +45,33 @@ $(document).ready(function()
      checkboxClass: 'icheckbox_flat-blue',
      radioClass: 'iradio_flat-blue',
   });
+  @if (str_contains(url()->current(), '/management/journaling'))
+
+    var start = '{{$startdate}}', end = '{{$enddate}}';
+    // function cb(start,end) {;8ee
+    //       $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    //   }
+    var drp = $('#daterange').daterangepicker({
+
+      locale: {
+        "customRangeLabel": "Pilih Tanggal",
+        format: 'DD-MM-YYYY',
+        separator: " -sampai- "
+      },
+      minDate : moment('{{$startdate}}', 'DD-MM-YYYY'),
+      maxDate : moment(),
+      showDropdowns: true,
+      ranges : {
+        'Semua Data' : [moment('{{$startdate}}','DD-MM-YYY'), moment()],
+      },
+    });
+    drp.startDate = '{{$startdate}}';
+    drp.endDate = '{{$enddate}}';
+    // $('input[name="date_picker"]').data('daterangepicker').setMinDate(moment());
+  @endif
+  $('.phoneCol').text(function(i, text) {
+    return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+});
 });
 $(".url-redirect").on('click',function(e) {
   e.preventDefault();
@@ -317,7 +344,25 @@ var table = $('#delivery-master-table').DataTable({
             className: 'align-middle'
         }]
     });
-
+$("#journalForm").on('submit',function(event)
+{
+  event.preventDefault();
+  $.post({
+    url: $(this).attr('action'),
+    data: $(this).serialize(),
+    dataType: 'HTML',
+    beforeSend: function(jqXHR, settings) {
+        $(".page-loader").addClass('show');
+    },
+    success: function(response) {
+      $("#journalCol").html(response);
+      $(".page-loader").removeClass('show');
+      // $('body, html').animate({
+      //   scrollTop: $("#do-row-"+index).offset().top
+      // }, 600);
+    }
+  });
+});
 function pageload()
 {
     if($(".page-loader").hasClass('show'))

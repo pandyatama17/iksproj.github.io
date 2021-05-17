@@ -73,7 +73,7 @@
         <br>
         <div class="row">
           <div class="col-4">
-            <label>Nopol Kendaraan</label>
+            <label>No. plat Kendaraan</label>
           </div>
           <div class="col-8">
             <input type="text" name="license_plate_no" class="form-control pull-right">

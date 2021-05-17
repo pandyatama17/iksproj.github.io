@@ -15,6 +15,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DeliveryExport;
 
 use DB;
+use Session;
 use Auth;
 use Carbon\Carbon;
 
@@ -22,23 +23,42 @@ class OperationalController extends Controller
 {
     public function index()
     {
-      $data = Delivery::leftJoin('pools as p', 'p.id','=','deliveries.pool_id')->select('deliveries.*','p.name as pool')->get();
-
+      // $data = Delivery::leftJoin('pools as p', 'p.id','=','deliveries.pool_id')->select('deliveries.*','p.name as pool')->get();
+      Session::forget('deliveries_table');
+      Session::forget('pool');
+      Session::forget('status');
+      session()->put('deliveries_table','master');
       $pool = "Master";
       return view('delivery.master')
-              ->with('pool', $pool)
-              ->with('data', $data);
+              ->with('pool', $pool);
+              // ->with('data', $data);
     }
     public function showDeliveriesByPool($id)
     {
-      $data = Delivery::where('deliveries.pool_id',$id)
-                        ->leftJoin('pools as p', 'p.id','=','deliveries.pool_id')
-                        ->select('deliveries.*','p.name as pool')
-                        ->get();
+      // $data = Delivery::where('deliveries.pool_id',$id)
+      //                   ->leftJoin('pools as p', 'p.id','=','deliveries.pool_id')
+      //                   ->select('deliveries.*','p.name as pool')
+      //                   ->get();
+      Session::forget('deliveries_table');
+      Session::forget('pool');
+      Session::forget('status');
+      session()->put('deliveries_table','pool');
+      session()->put('pool',$id);
       $pool = "Pool ".Pool::find($id)->name;
       return view('delivery.master')
-              ->with('pool', $pool)
-              ->with('data', $data);
+              ->with('pool', $pool);
+              // ->with('data', $data);
+    }
+    public function showDeliveriesByStatus($status)
+    {
+      Session::forget('deliveries_table');
+      // Session::forget('pool');
+      // Session::forget('status');
+      session()->put('deliveries_table','status');
+      session()->put('status',$status);
+      if ($status == 1) $dst = "Rekapan Sedang Berlangsung"; else $dst = "Riwayat Rekap";
+      return view('delivery.master')
+              ->with('pool', $dst);
     }
     public function showDeliveryOrders($delivery_id)
     {

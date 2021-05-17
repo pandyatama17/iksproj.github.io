@@ -70,13 +70,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="#" class="nav-link text-secondary">
+              <a href="{{route('deliveries_wstat', 1)}}" class="nav-link url-redirect">
                 <i class="fa fa-shipping-fast nav-icon"></i>
                 <p>Sedang Berlangsung</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link text-secondary">
+              <a href="{{route('deliveries_wstat', 0)}}" class="nav-link url-redirect">
                 <i class="fa fa-history nav-icon"></i>
                 <p>Riwayat</p>
               </a>
@@ -151,9 +151,15 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link text-secondary">
+        <a href="{{route('show_pools')}}" class="nav-link url-redirect">
           <i class="nav-icon fa fa-sitemap"></i>
           <p>Data Pool</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{route('show_journal')}}" class="nav-link url-redirect">
+          <i class="nav-icon fa fa-book"></i>
+          <p>Tutup Buku</p>
         </a>
       </li>
     @endif

@@ -207,4 +207,37 @@ class AjaxController extends Controller
 
       return view('includes.driverslist')->with('drivers', $drivers)->with('transport', $transport);
     }
+    public function getJournal(Request $r)
+    {
+      DB::connection()->enableQueryLog();
+      // return $r;
+      $dates = explode(' -sampai- ',$r->dates);
+      setlocale(LC_ALL, 'id_MX', 'id', 'ID');
+      $dateDesc = 'Data Rekap Selesai per tanggal '.Carbon::parse($dates[0])->formatLocalized('%d %B %Y').' sampai '.Carbon::parse($dates[1])->formatLocalized('%d %B %Y');
+
+      // $deliveries = DB::table('deliveries')->where('show_available',0);
+      $deliveries = Delivery::where('show_available',0);
+      foreach (Pool::all() as $index => $pool)
+      {
+        if ($r->has('pool-'.$pool->id) && $r->input('pool-'.$pool->id) == 'true')
+        {
+          if ($index == 0) {
+            $deliveries->where('pool_id', $pool->id);
+          }
+          else {
+            $deliveries->orWhere('pool_id', $pool->id);
+          }
+        }
+      }
+
+      $deliveries->where('created_at','>=',Carbon::parse($dates[0]))->where('created_at','<=',Carbon::parse($dates[1]));
+      $journal = $deliveries->get();
+      // return $deliveries->getBindings();
+      // return $deliveries->toSQL();
+      // dd($deliveries);
+      // $deliveries = Delivery::where('show_available',false)->where('created_at','>=',Carbon::parse($dates[0]))->where('created_at','<=',Carbon::parse($dates[1]))->get();
+      return view('includes.journals')
+              ->with('dateDesc',$dateDesc)
+              ->with('journal',$journal);
+    }
 }

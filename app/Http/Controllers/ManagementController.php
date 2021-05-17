@@ -53,12 +53,30 @@ class ManagementController extends Controller
     }
     public function showUsers()
     {
-      // $users = User::leftJoin('pools','pools.id','=','users.pool_id')
-      //                 ->select('pools.*', 'pool.name as pool')
-      //                 ->get();
       $users = User::all();
 
       return view('management.users')
               ->with('data', $users);
+    }
+    public function showPools()
+    {
+      $pools = Pool::all();
+      $users = User::all();
+
+      return view('management.pools')
+              ->with('data', $pools)
+              ->with('users', $users);
+    }
+    public function showJournal()
+    {
+      $pools = Pool::all();
+      $deliveries = Delivery::all();
+      $startdate = Carbon::parse(Delivery::orderBy('created_at', 'asc')->first()->created_at)->format('d-m-Y');
+      $enddate = Carbon::parse(Delivery::orderBy('created_at', 'asc')->first()->created_at)->format('d-m-Y');
+      return view('management.journal')
+              ->with('pools', $pools)
+              ->with('startdate', $startdate)
+              ->with('enddate', $enddate)
+              ->with('deliveries', $deliveries);
     }
 }

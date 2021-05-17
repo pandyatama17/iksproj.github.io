@@ -6,7 +6,7 @@
     <table class="table table-striped" id="driversTable">
       <thead>
         <th>Nama</th>
-        <th>No. Pol</th>
+        <th>No. Plat Kendaraan</th>
         {{-- <th>&nbsp;</th> --}}
       </thead>
       <tbody>

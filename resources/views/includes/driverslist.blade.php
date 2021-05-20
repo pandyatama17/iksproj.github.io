@@ -16,7 +16,7 @@
             <td>
               {{$dr->license_plate_no}}
               <span class="float-right">
-                <a href="#" class="text-secondary">
+                <a href="#" class="text-secondary editDriverButton" data-driverid="{{$dr->id}}" data-name="{{$dr->name}}" data-licenseplate="{{$dr->license_plate_no}}">
                   <i class="fa fa-edit"></i> | Edit
                 </a>
               </span>
@@ -36,6 +36,20 @@
 $('#driversTable').DataTable();
 $("#addDriverButton").on('click',function(event)
 {
-  $("#addDriverModal").modal('show');
+    $("#driverForm").attr('action','{{route('submit_driver')}}');
+    $("#driverModalTitle").html('Tambah Sopir');
+    $("#txtDriverID").val('');
+    $("#txtDriverName").val('');
+    $("#txtDriverplate").val('');
+    $("#addDriverModal").modal('show');
+});
+$(".editDriverButton").on('click',function(event)
+{
+    $("#driverForm").attr('action','{{route('update_driver')}}');
+    $("#driverModalTitle").html('Edit Sopir');
+    $("#txtDriverID").val($(this).data('driverid'));
+    $("#txtDriverName").val($(this).data('name'));
+    $("#txtDriverPlate").val($(this).data('licenseplate'));
+    $("#addDriverModal").modal('show');
 });
 </script>

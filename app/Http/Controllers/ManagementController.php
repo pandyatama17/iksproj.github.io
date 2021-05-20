@@ -51,6 +51,24 @@ class ManagementController extends Controller
         }
         return redirect()->route('show_transports');
     }
+    public function updateDriver(Request $r)
+    {
+      
+        $dr = Driver::find($r->driver_id);
+        $dr->name = $r->name;
+        $dr->license_plate_no = $r->license_plate_no;
+        try {
+          $dr->save();
+          session()->flash('message-type', 'success');
+          session()->flash('message-title', 'Berhasil');
+          session()->flash('message', 'Sopir berhasil dirubah');
+        } catch (\Exception $e) {
+          session()->flash('message-type', 'error');
+          session()->flash('message-title', 'Gagal');
+          session()->flash('message', 'Sopir gagal dirubah! trace : '.$e->getMessage());
+        }
+        return redirect()->route('show_transports');
+    }
     public function showUsers()
     {
       $users = User::all();

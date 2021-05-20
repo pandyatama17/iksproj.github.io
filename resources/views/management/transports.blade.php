@@ -51,11 +51,12 @@
 <div class="modal fade" id="addDriverModal" tabindex="-1" role="dialog">
 <div class="modal-dialog modal-dialog-centered" role="document">
   <div class="modal-content">
-    <form class="form" action="{{route('submit_driver')}}" method="post">
+    <form class="form" action="" method="post" id="driverForm">
+      <input type="hidden" name="driver_id" id="txtDriverID" value="">
       <input type="hidden" name="owner_id" id="transportID" value="">
       @csrf
       <div class="modal-header">
-        <h5 class="modal-title">Tambah Surat Jalan</h5>
+        <h5 class="modal-title" id="driverModalTitle">Tambah Sopir</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,7 +67,7 @@
             <label>Nama Sopir</label>
           </div>
           <div class="col-8">
-            <input type="text" name="name" class="form-control pull-right">
+            <input type="text" name="name" class="form-control pull-right" id="txtDriverName">
           </div>
         </div>
         <div class="clearfix"></div>
@@ -76,7 +77,7 @@
             <label>No. plat Kendaraan</label>
           </div>
           <div class="col-8">
-            <input type="text" name="license_plate_no" class="form-control pull-right">
+            <input type="text" name="license_plate_no" class="form-control pull-right" id="txtDriverPlate">
           </div>
         </div>
       </div>

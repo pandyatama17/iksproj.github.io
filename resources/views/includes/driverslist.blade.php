@@ -16,7 +16,7 @@
             <td>
               {{$dr->license_plate_no}}
               <span class="float-right">
-                <a href="#">
+                <a href="#" class="text-secondary">
                   <i class="fa fa-edit"></i> | Edit
                 </a>
               </span>

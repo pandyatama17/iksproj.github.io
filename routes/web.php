@@ -20,45 +20,45 @@ Auth::routes();
 
 Route::group(['middleware'=>['auth']], function()
 {
-  Route::get('/tracking', 'OperationalController@index')->name('operator_index');
+  Route::get('/home', 'OperationalController@index')->name('home');
   Route::get('/', 'OperationalController@index')->name('index');
-  Route::get('/tracking/deliveries/master', 'OperationalController@index')->name('master_data');
-  Route::get('/tracking/pool&id={pool_id}', 'OperationalController@showDeliveriesByPool')->name('deliveries_data');
-  Route::get('/tracking/status&id={status}', 'OperationalController@showDeliveriesByStatus')->name('deliveries_wstat');
-  Route::get('/tracking/delivery/show&id={id}', 'OperationalController@showDeliveryOrders')->name('show_delivery');
-  Route::get('/tracking/delivery_orders/master', 'OperationalController@showDeliveryOrdersMaster')->name('do_master_data');
-  Route::get('/tracking/delivery_orders/pool&id={pool_id}', 'OperationalController@showDeliveryOrderByPool')->name('do_data');
+  Route::get('/deliveries/master', 'OperationalController@index')->name('master_data');
+  Route::get('/pool&id={pool_id}', 'OperationalController@showDeliveriesByPool')->name('deliveries_data');
+  Route::get('/status&id={status}', 'OperationalController@showDeliveriesByStatus')->name('deliveries_wstat');
+  Route::get('/delivery/show&id={id}', 'OperationalController@showDeliveryOrders')->name('show_delivery');
+  Route::get('/delivery_orders/master', 'OperationalController@showDeliveryOrdersMaster')->name('do_master_data');
+  Route::get('/delivery_orders/pool&id={pool_id}', 'OperationalController@showDeliveryOrderByPool')->name('do_data');
   Route::get('/management/transports', 'ManagementController@showTransports')->name('show_transports');
   Route::get('/management/users', 'ManagementController@showUsers')->name('show_users');
   Route::get('/management/pools', 'ManagementController@showPools')->name('show_pools');
   Route::get('/management/journaling', 'ManagementController@showJournal')->name('show_journal');
 
   // form routes
-  Route::get('/tracking/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
-  Route::get('/tracking/delivery_order/new', 'OperationalController@newDeliveryOrder' )->name('new_do');
+  Route::get('/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
+  Route::get('/delivery_order/new', 'OperationalController@newDeliveryOrder' )->name('new_do');
 
   //ajax get routes
-  Route::get('/tracking/ajaxCall/drivers&transport={owner_id}', 'AjaxController@getDriversFromOwner');
-  Route::get('/tracking/ajaxCall/driversJSON&transport={owner_id}', 'AjaxController@getDriversJson');
-  Route::get('/tracking/ajaxCall/driverDetails&driverID={driver_id}', 'AjaxController@getDriverDetails');
-  Route::get('/tracking/ajaxCall/getReference&header={head}', 'AjaxController@getReference');
-  Route::get('/tracking/ajaxCall/getDeliveryDetails&id={id}', 'AjaxController@getDelivery');
-  Route::get('/tracking/ajaxCall/newDOLine&id={id}&code={code}&index={index}', 'AjaxController@newDOLine');
-  // Route::post('/tracking/ajaxCall/getDeliveriesJSON&type={type}&action={action}', 'AjaxController@getDeliveriesWithParams')->name('get_deliveries_json_wparams');
-  Route::post('/tracking/ajaxCall/getDeliveriesJSON', 'AjaxController@getDeliveries')->name('get_deliveries_json');
+  Route::get('/ajaxCall/drivers&transport={owner_id}', 'AjaxController@getDriversFromOwner')->name('ajax_get_drivers');
+  Route::get('/ajaxCall/driversJSON&transport={owner_id}', 'AjaxController@getDriversJson')->name('ajax_get_drivers_json');
+  Route::get('/ajaxCall/driverDetails&driverID={driver_id}', 'AjaxController@getDriverDetails')->name('ajax_get_driver_details');
+  Route::get('/ajaxCall/getReference&header={head}', 'AjaxController@getReference')->name('ajax_get_reference');
+  Route::get('/ajaxCall/getDeliveryDetails&id={id}', 'AjaxController@getDelivery')->name('ajax_get_deliveries');
+  Route::get('/ajaxCall/newDOLine&id={id}&code={code}&index={index}', 'AjaxController@newDOLine')->name('ajax_new_do');
+  // Route::post('/ajaxCall/getDeliveriesJSON&type={type}&action={action}', 'AjaxController@getDeliveriesWithParams')->name('get_deliveries_json_wparams');
+  Route::post('/ajaxCall/getDeliveriesJSON', 'AjaxController@getDeliveries')->name('get_deliveries_json');
   Route::get('/management/ajaxCall/drivers&transports={transport}', 'AjaxController@showDriversByTransport')->name('show_drivers_by');
   Route::post('/management/ajaxCall/getJournal', 'AjaxController@getJournal')->name('get_journal');
 
 
   // post routes
-  Route::post('/tracking/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');
-  Route::post('/tracking/delivery/order/form/submit','OperationalController@storeDeliveryOrder2')->name('submit_do2');
-  Route::post('/tracking/delivery/new/submit','OperationalController@storeDelivery')->name('submit_delivery');
+  Route::post('/delivery/order/submit','OperationalController@storeDeliveryOrder')->name('submit_do');
+  Route::post('/delivery/order/form/submit','OperationalController@storeDeliveryOrder2')->name('submit_do2');
+  Route::post('/delivery/new/submit','OperationalController@storeDelivery')->name('submit_delivery');
   Route::post('/management/driver/new/submit','ManagementController@storeDriver')->name('submit_driver');
 
   // export routes
-  Route::get('/tracking/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
-  Route::get('/tracking/delivery/finish&id={id}', 'OperationalController@finishDelivery')->name('finish_delivery');
+  Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
+  Route::get('/delivery/finish&id={id}', 'OperationalController@finishDelivery')->name('finish_delivery');
 
 
   //tests

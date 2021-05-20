@@ -116,14 +116,17 @@ class OperationalController extends Controller
         $do->driver_id = $r->driver_id;
         $do->license_plate_no = $r->license_plate_no;
         $do->driver_name = $r->driver_name;
-        // $do->date = Carbon::parse($r->date);
-        if ($r->blending_ref_id)
-        {
-          $do->blend_ref_id = $r->blending_ref_id;
-        }
         $do->tonnage = $r->tonnage;
         $do->fare = $r->fare;
         $do->status = 2;
+        if ($r->has('blending'))
+        {
+          $do->blending_destination = $r->blending_destination;
+          $do->blending_origin = $r->blending_origin;
+          $do->blending_tonnage = $r->blending_tonnage;
+
+          $do->tonnage = $r->tonnage + $r->blending_tonnage;
+        }
         // return $do;
 
         try {
@@ -249,7 +252,7 @@ class OperationalController extends Controller
         $data->save();
         return Excel::Download(new DeliveryExport($r->id), $data->code."-".Carbon::now()->format('dmY').".xlsx");
       } catch (\Exception $e) {
-        echo "gagal";
+        echo "gagal! ".$e->getMessage();
       }
       // return (new DeliveryExport)->forDelivery($r->id)->download($data->code."-".Carbon::now()->format('dmY').".xlsx");
     }

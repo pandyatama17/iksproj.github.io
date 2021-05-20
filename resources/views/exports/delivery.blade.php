@@ -39,19 +39,33 @@
   <td colspan="5"></td>
 </tr>
 <tr style="border:1px solid black">
-  <th style="border:1px solid black">No. Surat Jalan</th>
-  <th style="border:1px solid black">Sopir</th>
+  <th style="border:1px solid black" rowspan="2">No. Surat Jalan</th>
+  <th style="border:1px solid black" rowspan="2">Tonase</th>
+  <th style="border:1px solid black" colspan="3">Angkutan</th>
+  <th style="border:1px solid black" colspan="3">Blending</th>
+</tr>
+<tr>
+  <th style="border:1px solid black">Nama Angkutan</th>
   <th style="border:1px solid black">No. Plat</th>
+  <th style="border:1px solid black">Sopir</th>
+  <th style="border:1px solid black">Tujuan</th>
+  <th style="border:1px solid black">Pengambilan</th>
   <th style="border:1px solid black">Tonase</th>
-  <th style="border:1px solid black">Angkutan</th>
 </tr>
 @foreach ($details as $d)
   <tr>
-    <td style="border:1px solid black"><b>{{$d->do_number}}</b> @if ($d->blend_ref_id) <small>(Blending {{\App\DeliveryOrder::find($d->blend_ref_id)->do_number}})</small> @endif </td>
-    <td style="border:1px solid black">{{$d->driver}}</td>
-    <td style="border:1px solid black; white-space:nowrap">{{$d->license_plate_no}}</td>
-    <td style="border:1px solid black">{{$d->tonnage}} Kg.</td>
+    <td style="border:1px solid black"><b>{{$d->do_number}}</b></td>
+    <td style="border:1px solid black">{{$d->tonnage}}Kg.</td>
     <td style="border:1px solid black">{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
+    <td style="border:1px solid black; white-space:nowrap">{{$d->license_plate_no}}</td>
+    <td style="border:1px solid black">{{$d->driver}}</td>
+    @if ($d->blending_origin)
+      <td style="border:1px solid black">{{$d->blending_destination}}</td>
+      <td style="border:1px solid black">{{$d->blending_origin}}</td>
+      <td style="border:1px solid black">{{$d->blending_tonnage}}Kg.</td>
+    @else
+      <td style="border:1px solid black" colspan="3">-</td>
+    @endif
   </tr>
 @endforeach
 </table>

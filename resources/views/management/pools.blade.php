@@ -30,7 +30,7 @@
                     </p>
                     <ul class="ml-4 mb-0 fa-ul text-muted">
                       <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Alamat: {{$pool->address}}</li>
-                      <li class="small phoneCol" ><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Telp. : {{$pool->phone}}</li>
+                      <li class="small phoneCol" ><span class="fa-li"><i class="fa fa-lg fa-phone"></i></span> Telp. : {{$pool->phone}}</li>
                     </ul>
                   </div>
                   {{-- <div class="col-5 text-center">
@@ -38,16 +38,16 @@
                   </div> --}}
                 </div>
               </div>
-              {{-- <div class="card-footer">
+              <div class="card-footer">
                 <div class="text-right">
-                  <a href="#" class="btn btn-sm bg-teal">
+                  {{-- <a href="#" class="btn btn-sm bg-teal">
                     <i class="fas fa-comments"></i>
-                  </a>
-                  <a href="#" class="btn btn-sm btn-primary">
-                    <i class="fas fa-user"></i> View Profile
+                  </a> --}}
+                  <a href="{{route('deliveries_data',$pool->id)}}" class="btn btn-sm btn-primary">
+                    <i class="fa fa-clipboard-list"></i> Rekapan Pool
                   </a>
                 </div>
-              </div> --}}
+              </div>
             </div>
           </div>
           @endforeach

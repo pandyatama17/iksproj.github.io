@@ -102,18 +102,29 @@
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th style="width:25%">No. SJ</th>
+              <th style="width:25%" rowspan="2">No. SJ</th>
               {{-- <th>tgl.</th> --}}
-              <th>Sopir</th>
-              <th>No. Plat</th>
+              <th rowspan="2">Sopir</th>
+              <th rowspan="2">No. Plat</th>
+              <th rowspan="2">Tonase</th>
+              <th style="width:8%" rowspan="2"><span class="text-center">Angkutan</span></th>
+              <th colspan="3">Blending</th>
+            </tr>
+            <tr>
+              <th>Tujuan</th>
+              <th>Pengambilan</th>
               <th>Tonase</th>
-              <th style="width:8%">Angkutan</th>
             </tr>
           </thead>
           <tbody>
             @foreach ($details as $d)
               <tr>
-                <td><b>{{$d->do_number}}</b> @if ($d->blend_ref_id) <small>(Blending {{\App\DeliveryOrder::find($d->blend_ref_id)->do_number}})</small> @endif </td>
+                <td>
+                  <b>{{$d->do_number}}</b>
+                  {{-- @if ($d->blending_origin) <br>
+                    <small>(Tujuan Blending {{$d->blending_destination}}, Pengambilan {{$d->blending_origin}})</small>
+                  @endif --}}
+                </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
                 <td>
                   @if ($d->driver_name)
@@ -123,9 +134,21 @@
                   @endif
                 </td>
                 <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
-                <td>{{$d->tonnage}} Kg.</td>
+                <td>
+                  {{$d->tonnage}} Kg.
+                  {{-- @if ($d->blending_origin)
+                    <small>({{$d->tonnage - $d->blending_tonnage}}Kg. + {{$d->blending_tonnage}}Kg.)</small>
+                  @endif --}}
+                </td>
                 <td>{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
                 {{-- <td>{{$d->transport}}</td> --}}
+                @if ($d->blending_origin)
+                  <td>{{$d->blending_destination}}</td>
+                  <td>{{$d->blending_origin}}</td>
+                  <td>{{$d->blending_tonnage}}Kg.</td>
+                @else
+                  <td colspan="3" class="text-center">-</td>
+                @endif
               </tr>
             @endforeach
           </tbody>
@@ -181,7 +204,7 @@
                 <input type="text" class="form-control" name="do_number" data-code="{{$data->code}}"  id="DONumberTxt" value="{{$data->code}}">
               </div>
             </div>
-            <div class="col-lg-4 col-6">
+            {{-- <div class="col-lg-4 col-6">
               <div class="form-group">
                 <label for="">Blendingan Surat</label>
                 <div class="input-group">
@@ -198,7 +221,7 @@
                   </select>
                 </div>
               </div>
-            </div>
+            </div> --}}
             {{-- <div class="col-4">
               <div class="form-group">
                 <label for="">Tanggal</label>
@@ -212,6 +235,41 @@
                   <input type="number" class="form-control" name="tonnage" autocomplete="off">
                   <div class="input-group-append">
                     <span class="input-group-text">Kg.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 col-lg-3">
+              <div class="form-group">
+                <br>
+                <input type="checkbox" class="icheck" id="blendingCheck" name="blending">
+                <label for="blendingCheck">Blending</label>
+                </div>
+            </div>
+          </div>
+          <div id="blendingCol">
+            <hr>
+            <div class="row">
+              <div class="col-lg-4 col-6">
+                <div class="form-group">
+                  <label for="">Tujuan Blending</label>
+                  <input type="text" class="form-control" name="blending_destination">
+                </div>
+              </div>
+              <div class=" col-lg-4 col-6">
+                <div class="form-group">
+                  <label for="">Pengambilan Blending</label>
+                  <input type="text" class="form-control" name="blending_origin">
+                </div>
+              </div>
+              <div class="col-lg-3 col-5">
+                <div class="form-group">
+                  <label for="">Tonase Blending</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="blending_tonnage">
+                    <div class="input-group-append">
+                      <span class="input-group-text">Kg.</span>
+                    </div>
                   </div>
                 </div>
               </div>

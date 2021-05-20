@@ -71,8 +71,9 @@ $(document).ready(function()
   @endif
   $('.phoneCol').text(function(i, text) {
     return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+  });
 });
-});
+
 $(".url-redirect").on('click',function(e) {
   e.preventDefault();
   var url = $(this).attr('href');
@@ -86,7 +87,7 @@ $(".url-unavailable").on('click',function(e) {
 });
 $("#transportSelect").on('change',function(event)
 {
-    const url = "/tracking/ajaxCall/drivers&transport=" + $(this).val();
+    const url = "{{url('/')}}/ajaxCall/drivers&transport=" + $(this).val();
     $.ajax({
       url : url,
       type: 'GET',
@@ -108,14 +109,15 @@ $("#addDOModal").on('shown.bs.modal',function() {
 });
 
 // $('#customerTxt').autocomplete({
-//   serviceUrl: '/tracking/ajaxCall/getReference&header=3',
+//   serviceUrl: '/ajaxCall/getReference&header=3',
 //   appendTo : '#suggestions-container',
 //   onSelect: function (ref) {
 //     alert('You selected: ' + ref.body);
 //   }
 // });
 $('#customerTxt').autocomplete({
-    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
+    // serviceUrl: '/tracking/ajaxCall/getReference&header=3',
+    serviceUrl: '{{url('/')}}/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -130,7 +132,7 @@ $('#customerTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#codeTxt').autocomplete({
-    serviceUrl: '/tracking/ajaxCall/getReference&header=1',
+    serviceUrl: '{{url('/')}}/ajaxCall/getReference&header=1',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -145,7 +147,7 @@ $('#codeTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#senderTxt').autocomplete({
-    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
+    serviceUrl: '{{url('/')}}/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -160,7 +162,7 @@ $('#senderTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#recipientTxt').autocomplete({
-    serviceUrl: '/tracking/ajaxCall/getReference&header=3',
+    serviceUrl: '{{url('/')}}/ajaxCall/getReference&header=3',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -175,7 +177,7 @@ $('#recipientTxt').autocomplete({
     autoSelectFirst: true
 });
 $('#FreightLoadTxt').autocomplete({
-    serviceUrl: '/tracking/ajaxCall/getReference&header=2',
+    serviceUrl: '{{url('/')}}/ajaxCall/getReference&header=2',
     dataType: 'json',
     responseTime: 10,
     type: 'GET',
@@ -197,7 +199,7 @@ $("#blendingCheck").on('ifUnchecked',function() {
   $("#blendingRefSelect").prop('disabled',true);
 })
 $("#deliverySelect").on('change',function() {
-  var url = "/tracking/ajaxCall/getDeliveryDetails&id="+$(this).val();
+  var url = "{{url('/')}}/ajaxCall/getDeliveryDetails&id="+$(this).val();
   var code = $(this).find('option:selected').text();
   $.get({
     url: url,
@@ -254,7 +256,7 @@ $('body').on('click','a.finish-delivery',function(event) {
             preConfirm  : (hapus) =>{
             if (hapus.toUpperCase() == 'SELESAI') {
               // Swal.fire('Belom bisa wkjwkw', '', 'success')
-              var url = "/tracking/delivery/finish&id=" + $(this).data('id');
+              var url = "{{url('/')}}//delivery/finish&id=" + $(this).data('id');
               $(".page-loader").addClass('show');
               window.location.href = url;
             }
@@ -381,7 +383,7 @@ function pageload()
 }
 function newDOChild(id,code,index)
 {
-  var url = "/tracking/ajaxCall/newDOLine&id="+id+"&code="+code+"&index="+index;
+  var url = "{{url('/')}}/ajaxCall/newDOLine&id="+id+"&code="+code+"&index="+index;
 
   $.get({
     url: url,

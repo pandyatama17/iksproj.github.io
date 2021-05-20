@@ -156,12 +156,12 @@
           <p>Data Pool</p>
         </a>
       </li>
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a href="{{route('show_journal')}}" class="nav-link url-redirect">
           <i class="nav-icon fa fa-book"></i>
           <p>Tutup Buku</p>
         </a>
-      </li>
+      </li> --}}
     @endif
 
   </ul>

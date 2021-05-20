@@ -34,10 +34,10 @@
                     @endif
                   </td>
                   <td>
-                    <a href="#" class="triggerEditUserInfo" data-id="{{$u->id}}" data-name="{{$u->name}}" data-email="{{$u->email}}" data-pool={{$u->pool_id}}>
+                    <a href="#" class="text-secondary triggerEditUserInfo" data-id="{{$u->id}}" data-name="{{$u->name}}" data-email="{{$u->email}}" data-pool={{$u->pool_id}}>
                       <i class="fa fa-info-circle"></i> | Edit Informasi
                     </a> <br>
-                    <a href="#">
+                    <a href="#"  class="text-secondary">
                       <i class="fa fa-key"></i> | Edit Password
                     </a>
                   </td>

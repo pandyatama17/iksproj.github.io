@@ -53,7 +53,6 @@ class ManagementController extends Controller
     }
     public function updateDriver(Request $r)
     {
-      
         $dr = Driver::find($r->driver_id);
         $dr->name = $r->name;
         $dr->license_plate_no = $r->license_plate_no;

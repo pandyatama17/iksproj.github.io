@@ -121,9 +121,11 @@ class OperationalController extends Controller
         $do->status = 2;
         if ($r->has('blending'))
         {
-          $do->blending_destination = $r->blending_destination;
+          // $do->blending_destination = $r->blending_destination;
           $do->blending_origin = $r->blending_origin;
           $do->blending_tonnage = $r->blending_tonnage;
+          $do->blending_fare = $r->blending_fare;
+          $do->blending_fare2 = $r->blending_fare2;
 
           $do->tonnage = $r->tonnage + $r->blending_tonnage;
         }

@@ -128,12 +128,12 @@
         </li>
       </ul>
     </li>
-    <li class="nav-item">
+    {{-- <li class="nav-item">
       <a href="{{route('new_do')}}" class="nav-link url-redirect">
         <i class="fa fa-plus-square nav-icon"></i>
         <p>Tambah Surat Jalan</p>
       </a>
-    </li>
+    </li> --}}
 
     @if (Auth::user()->role < 2)
       <li class="nav-header">MANAJEMEN</li>

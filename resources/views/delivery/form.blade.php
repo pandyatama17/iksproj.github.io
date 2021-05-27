@@ -35,7 +35,7 @@
               <select class="form-control" name="pool_id">
                 <option @if (Auth::user()->id < 2 && $method=="new") selected @endif disabled>Pilih pool...</option>
                 @foreach (App\Pool::all() as $pool)
-                  <option @if ((Auth::user()->id >=2 && Auth::user()->pool_id == $pool->id) || ($method == "new" && $delivery->pool_id == $pool->id))selected @endif value="{{$pool->id}}">{{$pool->name}}</option>
+                  <option value="{{$pool->id}}">{{$pool->name}}</option>
                 @endforeach
               </select>
             </div>

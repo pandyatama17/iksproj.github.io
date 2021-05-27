@@ -17,9 +17,12 @@
       <h5 class="card-title">Tongkang {{$data->code}} ({{$data->pool}})</h5>
       <div class="card-tools">
         @if ($data->show_available)
-          <button type="button" class="btn btn-tool bg-navy" data-toggle="modal" data-target="#addDOModal">
+          <button type="button" class="btn btn-tool bg-navy" {{--data-toggle="modal" data-target="#addDOModal"--}} id="addDOButton" >
             <i class="fas fa-plus"></i> <span class="d-none d-md-inline">Tambah Surat</span>
           </button>
+          <a href="{{route('edit_delivery',$data->id)}}" class="btn btn-tool bg-warning" data-toggle="" data-target="">
+            <i class="fas fa-edit"></i> <span class="d-none d-md-inline">Edit Rekap</span>
+          </a>
         @endif
         <a type="button" class="btn btn-tool bg-success" href="{{route('export_delivery',$data->id)}}">
           <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Import Excel</span>
@@ -102,16 +105,22 @@
         <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th style="width:15%" rowspan="2">No. SJ</th>
+              <th class="align-middle" style="width:15%" rowspan="2">No. Surat</th>
               {{-- <th>tgl.</th> --}}
-              <th rowspan="2">Sopir</th>
-              <th rowspan="2">No. Plat</th>
-              <th rowspan="2">Tonase</th>
-              <th style="width:8%" rowspan="2"><span class="text-center">Angkutan</span></th>
-              <th colspan="3" class="text-center">Blending</th>
+              <th class="align-middle" rowspan="2">Tonase</th>
+              <th class="align-middle" rowspan="2">Pengambilan</th>
+              {{-- <th rowspan="2">Sopir</th>
+              <th rowspan="2">No. Plat</th> --}}
+              <th colspan="3" class="text-center">Angkutan</th>
+              {{-- <th style="width:8%" rowspan="2"><span class="text-center">Angkutan</span></th> --}}
+              <th colspan="2" class="text-center">Blending</th>
+              <th rowspan="2" class="text-center"  style="width:2%; border:none!important; background:#fff!important"></th>
             </tr>
             <tr>
-              <th>Tarif</th>
+              {{-- <th>Tarif</th> --}}
+              <th>Nama Sopir</th>
+              <th>No. Plat</th>
+              <th>Nama Angkutan</th>
               <th>Pengambilan</th>
               <th>Tonase</th>
             </tr>
@@ -119,6 +128,7 @@
           <tbody>
             @foreach ($details as $d)
               <tr>
+
                 <td>
                   <b>{{$d->do_number}}</b>
                   @if ($d->blending_origin)
@@ -127,6 +137,13 @@
                 </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
                 <td>
+                  {{$d->tonnage}} Kg.
+                  {{-- @if ($d->blending_origin)
+                  <small>({{$d->tonnage - $d->blending_tonnage}}Kg. + {{$d->blending_tonnage}}Kg.)</small>
+                @endif --}}
+              </td>
+              <td>{{rupiah($d->fare)}}</td>
+                <td>
                   @if ($d->driver_name)
                     {{$d->driver_name}}
                   @else
@@ -134,21 +151,22 @@
                   @endif
                 </td>
                 <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
-                <td>
-                  {{$d->tonnage}} Kg.
-                  {{-- @if ($d->blending_origin)
-                    <small>({{$d->tonnage - $d->blending_tonnage}}Kg. + {{$d->blending_tonnage}}Kg.)</small>
-                  @endif --}}
-                </td>
                 <td>{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
                 {{-- <td>{{$d->transport}}</td> --}}
                 @if ($d->blending_origin)
                   {{-- <td>{{$d->blending_destination}}</td> --}}
                   <td>{{rupiah($d->blending_fare)}}</td>
-                  <td>{{rupiah($d->blending_fare2)}}</td>
+                  {{-- <td>{{rupiah($d->blending_fare2)}}</td> --}}
                   <td>{{$d->blending_tonnage}}Kg.</td>
                 @else
-                  <td colspan="3" class="text-center">-</td>
+                  <td colspan="2" class="text-center">-</td>
+                @endif
+                @if ($data->show_available)
+                  <td style="{{--border:none!important;--}} background:#fff!important">
+                    <button type="button" class="btn btn-link text-orange editDO" data-doid="{{$d->id}}">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                  </td>
                 @endif
               </tr>
             @endforeach
@@ -177,6 +195,7 @@
       <form class="form" action="{{route('submit_do')}}" method="post">
         @csrf
         <input type="hidden" name="delivery_id" value="{{$data->id}}">
+        <input type="hidden" name="do_id" id="doIDTxt">
         <div class="modal-header">
           <h5 class="modal-title">Tambah Surat Jalan</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -188,13 +207,13 @@
             <div class="col-6">
               <div class="form-group">
                 <label for="">Nama Tongkang</label>
-                <input type="text" class="form-control" value="{{$data->code}}" readonly>
+                <input type="text" class="form-control" value="{{$data->code}}" readonly id="codeTxt">
               </div>
             </div>
             <div class="col-6">
               <div class="form-group">
                 <label for="">Customer</label>
-                <input type="text" class="form-control" value="{{$data->customer_name}}" readonly>
+                <input type="text" class="form-control" value="{{$data->customer_name}}" readonly id="customerTxt">
               </div>
             </div>
           </div>
@@ -233,7 +252,7 @@
               <div class="form-group">
                 <label for="">Tonase</label>
                 <div class="input-group">
-                  <input type="number" class="form-control" name="tonnage" autocomplete="off">
+                  <input type="number" class="form-control" name="tonnage" autocomplete="off" id="tonnageTxt">
                   <div class="input-group-append">
                     <span class="input-group-text">Kg.</span>
                   </div>
@@ -259,15 +278,15 @@
               </div> --}}
               <div class=" col-lg-4 col-6">
                 <div class="form-group">
-                  <label for="">Pengambilan Blending (Stockpile)</label>
-                  <input type="text" class="form-control" name="blending_origin">
+                  <label for="">Stockpile</label>
+                  <input type="text" class="form-control" name="blending_origin" id="blendingOriginTxt">
                 </div>
               </div>
               <div class="col-lg-3 col-5">
                 <div class="form-group">
                   <label for="">Tonase Blending</label>
                   <div class="input-group">
-                    <input type="number" class="form-control" name="blending_tonnage">
+                    <input type="number" class="form-control" name="blending_tonnage" id="blendingTonnageTxt">
                     <div class="input-group-append">
                       <span class="input-group-text">Kg.</span>
                     </div>
@@ -278,19 +297,19 @@
             <div class="row">
               <div class="col-7 col-lg-4">
                 <div class="form-group">
-                  <label>Biaya Pengambilan</label>
+                  <label>Biaya Pengambilan Blending</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">Rp</span>
                     </div>
-                    <input type="number" class="form-control" name="blending_fare" autocomplete="off">
+                    <input type="number" class="form-control" name="blending_fare" autocomplete="off" id="blendingFareTxt">
                     <div class="input-group-append">
                       <span class="input-group-text">,-</span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-7 col-lg-4">
+              {{-- <div class="col-7 col-lg-4">
                 <div class="form-group">
                   <label>Tarif Blending</label>
                   <div class="input-group">
@@ -303,29 +322,36 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </div>
           <hr>
           <div class="row">
-            <div class="col-4">
+            <div class="col-4" id="driverCol">
+              <label for="">Mobil</label>
+              <br>
+              {{-- <select class="select2 form-control" style="width:100%" disabled>
+              <option selected disabled> Pilih mobil... </option>
+            </select> --}}
+            <select class="select2 form-control" id="carSelect" data-placeholder="Pilih Mobil...">
+              <option selected disabled>Pilih Mobil...</option>
+              @foreach (\App\Driver::all() as $driver)
+                <option value="{{$driver->id}}">{{$driver->license_plate_no}}</option>
+              @endforeach
+            </select>
+          </div>
+            <div class="col-3">
               <label for="">Angkutan</label>
               <br>
-              <select class="select2 form-control" style="width:100%" id="transportSelect">
+              {{-- <select class="select2 form-control" style="width:100%" id="transportSelect">
                 <option selected disabled> Pilih angkutan... </option>
                 @foreach ($transports as $tr)
                   <option value="{{$tr->id}}">{{$tr->name}}</option>
                 @endforeach
-              </select>
+              </select> --}}
+              <input type="text" class="form-control" id="transportTxt" readonly>
             </div>
-            <div class="col-5" id="driverCol">
-              <label for="">Mobil</label>
-              <br>
-              <select class="select2 form-control" style="width:100%" disabled>
-                <option selected disabled> Pilih mobil... </option>
-              </select>
-            </div>
-            <div class="col-3">
+            <div class="col-5">
               <div class="form-group">
                 <label>Sopir</label>
                 <input type="hidden" id="driverIDHidTXT" name="driver_id">
@@ -339,12 +365,12 @@
             </div> --}}
             <div class="col-7 col-lg-5">
               <div class="form-group">
-                <label>Tarip</label>
+                <label>Pengambilan</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Rp</span>
                   </div>
-                  <input type="number" class="form-control" name="fare" autocomplete="off">
+                  <input type="number" class="form-control" name="fare" autocomplete="off" id="fareTxt">
                   <div class="input-group-append">
                     <span class="input-group-text">,-</span>
                   </div>

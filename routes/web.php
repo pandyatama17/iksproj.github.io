@@ -36,6 +36,7 @@ Route::group(['middleware'=>['auth']], function()
   // form routes
   Route::get('/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
   Route::get('/delivery_order/new', 'OperationalController@newDeliveryOrder' )->name('new_do');
+  Route::get('/delivery/edit&id={id}', 'OperationalController@editDelivery' )->name('edit_delivery');
 
   //ajax get routes
   Route::get('/ajaxCall/drivers&transport={owner_id}', 'AjaxController@getDriversFromOwner')->name('ajax_get_drivers');
@@ -48,6 +49,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/ajaxCall/getDeliveriesJSON', 'AjaxController@getDeliveries')->name('get_deliveries_json');
   Route::get('/management/ajaxCall/drivers&transports={transport}', 'AjaxController@showDriversByTransport')->name('show_drivers_by');
   Route::post('/management/ajaxCall/getJournal', 'AjaxController@getJournal')->name('get_journal');
+  Route::get('/ajaxCall/getDO&id={id}','AjaxController@getDO')->name('get_do_json');
 
 
   // post routes
@@ -56,12 +58,18 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/delivery/new/submit','OperationalController@storeDelivery')->name('submit_delivery');
   Route::post('/management/driver/new/submit','ManagementController@storeDriver')->name('submit_driver');
   Route::post('/management/driver/update','ManagementController@updateDriver')->name('update_driver');
+  Route::post('/delivery/update','OperationalController@updateDelivery')->name('update_delivery');
 
   // export routes
   Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
   Route::get('/delivery/finish&id={id}', 'OperationalController@finishDelivery')->name('finish_delivery');
 
 
+  Route::get('/logout',function()
+  {
+    Auth::logout();
+    return redirect()->route('login');
+  })->name('logout');
   //tests
   Route::get('/test/delivery_export/{id}', function($id)
   {
@@ -82,5 +90,11 @@ Route::group(['middleware'=>['auth']], function()
               ->with('data', $data)
               ->with('transports', $transports)
               ->with('details', $details);
+  });
+  Route::get('/test/inikenapa', function()
+  {
+    if (Auth::user()->pool_id == \App\Delivery::first()->pool_id || Auth::user()->role < 2) {
+      return "ok";
+    }
   });
 });

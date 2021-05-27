@@ -65,6 +65,9 @@
     {
       .table-responsive{overflow-x:scroll;}
     }
+    .select2-container.select2-container--default.select2-container--open  {
+      z-index: 5000;
+    }
   </style>
 </head>
 <body class="hold-transition sidebar-mini">

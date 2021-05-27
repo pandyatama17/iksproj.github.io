@@ -20,6 +20,7 @@ $(document).ready(function()
     toastr.{{Session::get('message-type')}}("{{Session::get('message')}}");
     Swal.fire("{{Session::get('message-title')}}","{{Session::get('message')}}","{{Session::get('message-type')}}");
   @endif
+  $("#blendingCol").hide();
   $('.datatable-responsive').DataTable({
     "responsive": true
   });
@@ -40,7 +41,10 @@ $(document).ready(function()
     format: "dd-mm-yyyy",
     language : "id"
   });
-  $(".select2").select2();
+  $(".select2").select2({
+
+    dropdownParent : $('.modal')
+  });
   $(".icheck").iCheck({
      checkboxClass: 'icheckbox_flat-blue',
      radioClass: 'iradio_flat-blue',
@@ -98,16 +102,53 @@ $("#transportSelect").on('change',function(event)
       }
     })
 });
-$("#addDOModal").on('shown.bs.modal',function() {
+$("#carSelect").on('change',function(event)
+{
+    const url = "{{url('/')}}/ajaxCall/driverDetails&driverID=" + $(this).val();
+    $.ajax({
+      url : url,
+      type: 'GET',
+      dataType: 'HTML',
+      success: function(response)
+      {
+        var driver = $.parseJSON(response);
+        $("#transportTxt").val(driver.transport);
+        $("#driverNameTxt").val(driver.name);
+        $("#driverIDHidTXT").val(driver.id);
+        $("#driverLicenseHidTXT").val(driver.license_plate_no);
+        $("#driverNameTxt").attr('readonly',false);
+      }
+    })
+});
+// $("#addDOModal").on('shown.bs.modal',function() {
+//   var donum = $("#DONumberTxt");
+//   const lastIndex = $("#indexDOCount").val();
+//   var newIndex = parseInt(lastIndex) + 1;
+//   const index = zeroFill(newIndex,3);
+//   const code = donum.data('code') + index;
+//
+//   donum.val(code);
+// });
+$("#addDOButton").on('click',function() {
   var donum = $("#DONumberTxt");
   const lastIndex = $("#indexDOCount").val();
   var newIndex = parseInt(lastIndex) + 1;
   const index = zeroFill(newIndex,3);
   const code = donum.data('code') + index;
-
+  setTimeout(function(){ $("#blendingCheck").iCheck('uncheck');}, 1);
   donum.val(code);
+  $("#addDOModal").modal('show');
 });
-
+$("#blendingCheck").on('ifUnchecked',function(event)
+{
+  $("#blendingCol :input").val('');
+});
+$("#blendingCheck").on('ifChanged', function(event){
+  $("#blendingCol").slideToggle();
+});
+$("#addDOModal").on('hidden.bs.modal',function() {
+  $("#addDOModal :input").not('[name="_token"]').not('[readonly="true"]').val('');
+});
 // $('#customerTxt').autocomplete({
 //   serviceUrl: '/ajaxCall/getReference&header=3',
 //   appendTo : '#suggestions-container',
@@ -190,6 +231,37 @@ $('#FreightLoadTxt').autocomplete({
         }
     },
     autoSelectFirst: true
+});
+$(".editDO").on('click',function(event)
+{
+  var do_id = $(this).data('doid');
+  $.get({
+    url : '{{url('/')}}/ajaxCall/getDO&id='+do_id,
+    dataType : 'JSON',
+    beforeSend : pageload(),
+    success: function(response){
+      // var obj = $.parseJSON(response);
+      console.log(response);
+      $("#doIDTxt").val(response.id);
+      $("#codeTxt").val(response.code);
+      $("#customerTxt").val(response.customer_name);
+      $("#DONumberTxt").val(response.do_number);
+      $("#tonnageTxt").val(response.tonnage);
+      $("#fareTxt").val(response.fare);
+      if (response.blending_origin) {
+        $('#blendingCheck').iCheck('check');
+        $('#blendingOriginTxt').val(response.blending_origin);
+        $('#blendingFareTxt').val(response.blending_fare);
+        $('#blendingTonnageTxt').val(response.blending_tonnage);
+      }
+      else {
+        $('#blendingCheck').iCheck('uncheck');
+      }
+      $("#carSelect").val(response.driver_id).trigger('change');
+      pageload();
+      $('#addDOModal').modal('show');
+    }
+  })
 });
 $("#blendingCheck").on('ifChecked',function() {
   $("#blendingRefSelect").prop('disabled',false);

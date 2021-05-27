@@ -41,25 +41,27 @@
             <p>Data Master</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-sitemap"></i>
-            <p>
-              Pool
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            @foreach (\App\Pool::all() as $pool)
-              <li class="nav-item">
-                <a href="{{route('deliveries_data',$pool->id)}}" class="nav-link url-redirect">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{$pool->name}}</p>
-                </a>
-              </li>
-            @endforeach
-          </ul>
-        </li>
+        @if (Auth::user()->role < 2)
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-sitemap"></i>
+              <p>
+                Pool
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @foreach (\App\Pool::all() as $pool)
+                <li class="nav-item">
+                  <a href="{{route('deliveries_data',$pool->id)}}" class="nav-link url-redirect">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>{{$pool->name}}</p>
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+          </li>
+        @endif
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa fa-clipboard-check"></i>
@@ -107,25 +109,27 @@
             <p>Data Master</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-sitemap"></i>
-            <p>
-              Pool
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            @foreach (\App\Pool::all() as $pool)
-              <li class="nav-item">
-                <a href="{{route('do_data',$pool->id)}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>{{$pool->name}}</p>
-                </a>
-              </li>
-            @endforeach
-          </ul>
-        </li>
+        @if (Auth::user()->role < 2)
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-sitemap"></i>
+              <p>
+                Pool
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              @foreach (\App\Pool::all() as $pool)
+                <li class="nav-item">
+                  <a href="{{route('do_data',$pool->id)}}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>{{$pool->name}}</p>
+                  </a>
+                </li>
+              @endforeach
+            </ul>
+          </li>
+        @endif
       </ul>
     </li>
     {{-- <li class="nav-item">
@@ -163,6 +167,12 @@
         </a>
       </li> --}}
     @endif
-
+    <li class="nav-header">USER</li>
+    <li class="nav-item">
+      <a href="{{route('logout')}}" class="nav-link url-redirect">
+        <i class="nav-icon fa fa-sign-out-alt"></i>
+        <p>Log Out</p>
+      </a>
+    </li>
   </ul>
 </nav>

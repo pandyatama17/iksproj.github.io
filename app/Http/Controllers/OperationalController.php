@@ -109,7 +109,15 @@ class OperationalController extends Controller
     }
     public function storeDeliveryOrder(Request $r)
     {
-        $do = new DeliveryOrder;
+      // return $r;
+        if ($r->do_id) {
+          $do = DeliveryOrder::find($r->do_id);
+          $msg = "diubah";
+        }
+        else {
+          $do = new DeliveryOrder;
+          $msg = "ditambahkan";
+        }
 
         $do->delivery_id = $r->delivery_id;
         $do->do_number = $r->do_number;
@@ -125,7 +133,7 @@ class OperationalController extends Controller
           $do->blending_origin = $r->blending_origin;
           $do->blending_tonnage = $r->blending_tonnage;
           $do->blending_fare = $r->blending_fare;
-          $do->blending_fare2 = $r->blending_fare2;
+          // $do->blending_fare2 = $r->blending_fare2;
 
           $do->tonnage = $r->tonnage + $r->blending_tonnage;
         }
@@ -135,17 +143,24 @@ class OperationalController extends Controller
           $do->save();
           session()->flash('message-type', 'success');
           session()->flash('message-title', 'Berhasil');
-          session()->flash('message', 'Surat Jalan berhasil ditambahkan');
+          session()->flash('message', 'Surat Jalan berhasil '.$msg.'!');
         } catch (\Exception $e) {
           session()->flash('message-type', 'error');
           session()->flash('message-title', 'Gagal');
-          session()->flash('message', 'Surat Jalan gagal ditambahkan! trace : '.$e->getMessage());
+          session()->flash('message', 'Surat Jalan gagal '.$msg.'! trace : '.$e->getMessage());
         }
         return redirect()->route('show_delivery',$r->delivery_id);
     }
     public function newDelivery()
     {
       return view('delivery.form')->with('method', 'new');
+    }
+    public function editDelivery($id)
+    {
+      $delivery = Delivery::find($id);
+      return view('delivery.form')
+            ->with('method', 'edit')
+            ->with('delivery', $delivery);
     }
     public function storeDelivery(Request $r)
     {
@@ -198,6 +213,60 @@ class OperationalController extends Controller
         session()->flash('message-type', 'error');
         session()->flash('message-title', 'Gagal');
         session()->flash('message', 'Rekap Tongkang gagal ditambahkan! trace : '.$e->getMessage());
+        return redirect()->route('new_delivery');
+      }
+    }
+    public function updateDelivery(Request $r)
+    {
+      $d = Delivery::find($r->delivery_id);
+      $d->code = $r->code;
+      $d->admin = Auth::user()->id;
+      $d->customer_name = $r->customer_name;
+      $d->freight_load = $r->freight_load;
+      $d->sender_name = $r->sender_name;
+      $d->recipient_name = $r->recipient_name;
+      $d->pool_id = $r->pool_id;
+      $d->date = Carbon::parse($r->date);
+
+      // references
+      $refs = [
+                'code'=>['head'=>1,'body'=>$r->code],
+                'customer'=>['head'=>3,'body'=>$r->customer_name],
+                'sender'=>['head'=>3,'body'=>$r->sender_name],
+                'recipient'=>['head'=>3,'body'=>$r->recipient_name],
+                'freight_load'=>['head'=>2,'body'=>$r->freight_load],
+              ];
+      $test = "";
+      $returnMsg = "";
+      foreach ($refs as $key => $value) {
+          // $test .= $key."->".$value['body']." ";
+          $checkRef = Ref::where('head', $value['head'])->where('body',$value['body'])->first();
+
+          if (!$checkRef) {
+            $ref = new Ref;
+            $ref->head = $value['head'];
+            $ref->body = $value['body'];
+            $ref->created_at = Carbon::now();
+            $ref->updated_at = Carbon::now();
+            try {
+              $ref->save();
+            }
+            catch (\Exception $e) {
+                $returnMsg .= 'ref_'.$key.' fail';
+            }
+          }
+      }
+      // return $returnMsg;
+      try {
+        $d->save();
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil');
+        session()->flash('message', 'Rekap Tongkang berhasil diubah');
+        return redirect()->route('show_delivery',$d->id);
+      } catch (\Exception $e) {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Rekap Tongkang gagal diubah! trace : '.$e->getMessage());
         return redirect()->route('new_delivery');
       }
     }

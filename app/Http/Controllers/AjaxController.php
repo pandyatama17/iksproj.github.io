@@ -12,7 +12,7 @@ use App\Ref;
 use App\ExportedDelivery;
 use DB;
 use Carbon\Carbon;
-
+use Auth;
 class AjaxController extends Controller
 {
     public function getDriversFromOwner($owner_id)
@@ -28,7 +28,12 @@ class AjaxController extends Controller
     }
     public function getDriverDetails($driver_id)
     {
-      $driver = Driver::find($driver_id);
+      // $driver = Driver::find($driver_id);
+
+      $driver = Driver::where('drivers.id',$driver_id)
+                ->leftJoin('vehicle_owners as vo','vo.id','=','drivers.owner_id')
+                ->select('drivers.*', 'vo.name as transport')
+                ->first();
 
       echo json_encode($driver);
     }
@@ -61,6 +66,15 @@ class AjaxController extends Controller
                   ->first();
       $delivery->date = Carbon::parse($delivery->date)->format('d-m-Y');
       echo json_encode($delivery);
+    }
+    public function getDO($id)
+    {
+      $do = DeliveryOrder::where('delivery_orders.id',$id)
+            ->leftJoin('deliveries','delivery_orders.delivery_id','=','deliveries.id')
+            ->select('delivery_orders.*','deliveries.code as code', 'deliveries.customer_name as customer_name')
+            ->first();
+      // $do = DeliveryOrder::find($id);
+      echo json_encode($do);
     }
     public function newDOLine($id, $code, $index)
     {
@@ -168,7 +182,13 @@ class AjaxController extends Controller
                                         </a>';
             if ($delivery->exported) {
               $nestedData['options'] .= '<br>
-                                        <small class="text-success"><i>Excel terakhir :  '.$delivery->updated_at.' </i></small>';
+                                        <small class="text-success"><i>Diimport tgl :  '.$delivery->updated_at.' </i></small>';
+            }
+            if (Auth::user()->pool_id == $delivery->pool_id || Auth::user()->role < 2) {
+              $nestedData['options'] .= '<br>
+                                        <a href="'.route('edit_delivery',$delivery->id).'" class="text-warning url-redirect" >
+                                          <i class="fa fa-edit"></i> | Edit Rekap
+                                        </a>';
             }
             $nestedData['options'] .= '<br>
                                       <a href="#" class="text-danger url-redirect url-unavailable finish-delivery" data-id="'.$delivery->id.'" data-exported="'.$delivery->exported.'" data-code="'.$delivery->code.'">
@@ -179,10 +199,11 @@ class AjaxController extends Controller
           else {
             $nestedData['tonnage'] = ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_tonnage."Kg.";
             $nestedData['rit'] = '<span class="badge badge-secondary">'.ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_rit.' Rit</span>';
-            $nestedData['options'] = '<small class="text-success"><i>data ini sudah diImport Excel</i></small>
+            $nestedData['options'] = '<small class="text-success"><i>Rekap telah di import Excel</i></small>
                                       <br>
-                                      <small class="text-primary"><i>diselesaikan tanggal '.$delivery->created_at.'</i></small>
+                                      <small class="text-primary"><i>Rekap Selesai ('.$delivery->created_at.')</i></small>
                                     ';
+            $nestedData['options'] = '<small class="text-primary"><i>Rekap Selesai ('.$delivery->created_at.')</i></small>';
           }
           $data[] = $nestedData;
 

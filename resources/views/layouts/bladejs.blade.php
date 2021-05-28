@@ -261,7 +261,10 @@ $(".editDO").on('click',function(event)
       pageload();
       $('#addDOModal').modal('show');
     }
-  })
+  });
+});
+$("#addTransportBtn").on('click',function() {
+    $("#transportModal").modal('show');
 });
 $("#blendingCheck").on('ifChecked',function() {
   $("#blendingRefSelect").prop('disabled',false);

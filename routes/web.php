@@ -59,6 +59,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/management/driver/new/submit','ManagementController@storeDriver')->name('submit_driver');
   Route::post('/management/driver/update','ManagementController@updateDriver')->name('update_driver');
   Route::post('/delivery/update','OperationalController@updateDelivery')->name('update_delivery');
+  Route::post('/management/transport/new/submit','ManagementController@storeTransport')->name('submit_transport');
 
   // export routes
   Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');

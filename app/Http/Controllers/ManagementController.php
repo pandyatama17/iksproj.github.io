@@ -34,7 +34,7 @@ class ManagementController extends Controller
         $dr->name = $r->name;
         $dr->owner_id = $r->owner_id;
         $dr->license_plate_no = $r->license_plate_no;
-        $dr->phone = 11123333;
+        $dr->phone = 111111;
         $dr->vehicle_type = 'default';
         $dr->vehicle_brand = 'default';
         $dr->vehicle_name = 'default';
@@ -68,6 +68,28 @@ class ManagementController extends Controller
         }
         return redirect()->route('show_transports');
     }
+
+    public function storeTransport(Request $r)
+    {
+        $t = new VehicleOwner;
+        $t->name = $r->name;
+        $t->email = $r->email;
+        $t->phone = $r->phone;
+        $t->address = "default";
+
+        try {
+          $t->save();
+          session()->flash('message-type', 'success');
+          session()->flash('message-title', 'Berhasil');
+          session()->flash('message', 'Transport berhasil ditambahkan');
+        } catch (\Exception $e) {
+          session()->flash('message-type', 'error');
+          session()->flash('message-title', 'Gagal');
+          session()->flash('message', 'Transport gagal ditambahkan! trace : '.$e->getMessage());
+        }
+        return redirect()->route('show_transports');
+    }
+
     public function showUsers()
     {
       $users = User::all();

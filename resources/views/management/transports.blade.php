@@ -19,6 +19,11 @@
     <div class="card card-primary">
       <div class="card-header">
         <h3 class="card-title">List Transportasi</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool bg-success" id="addTransportBtn">
+            <i class="fa fa-plus"></i> Tambah Transport
+          </button>
+        </div>
       </div>
       <div class="card-body">
         <table class="table table-striped datatable-sm">
@@ -49,43 +54,94 @@
   </div>
 </div>
 <div class="modal fade" id="addDriverModal" tabindex="-1" role="dialog">
-<div class="modal-dialog modal-dialog-centered" role="document">
-  <div class="modal-content">
-    <form class="form" action="" method="post" id="driverForm">
-      <input type="hidden" name="driver_id" id="txtDriverID" value="">
-      <input type="hidden" name="owner_id" id="transportID" value="">
-      @csrf
-      <div class="modal-header">
-        <h5 class="modal-title" id="driverModalTitle">Tambah Sopir</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-4">
-            <label>Nama Sopir</label>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form class="form" action="" method="post" id="driverForm">
+        <input type="hidden" name="driver_id" id="txtDriverID" value="">
+        <input type="hidden" name="owner_id" id="transportID" value="">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="driverModalTitle">Tambah Sopir</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <label>Nama Sopir</label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="name" class="form-control pull-right" id="txtDriverName">
+            </div>
           </div>
-          <div class="col-8">
-            <input type="text" name="name" class="form-control pull-right" id="txtDriverName">
+          <div class="clearfix"></div>
+          <br>
+          <div class="row">
+            <div class="col-4">
+              <label>No. plat Kendaraan</label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="license_plate_no" class="form-control pull-right" id="txtDriverPlate">
+            </div>
           </div>
         </div>
-        <div class="clearfix"></div>
-        <br>
-        <div class="row">
-          <div class="col-4">
-            <label>No. plat Kendaraan</label>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Simpan Data</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="transportModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <form class="form" method="post" id="transportForm" action="{{route('submit_transport')}}">
+        @csrf
+        <div class="modal-header">
+          <h5 class="modal-title" id="driverModalTitle">Tambah Transport</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-4">
+              <label>Nama Transport </label>
+            </div>
+            <div class="col-8">
+              <input type="text" name="name" class="form-control pull-right" id="txtTransportName">
+            </div>
           </div>
-          <div class="col-8">
-            <input type="text" name="license_plate_no" class="form-control pull-right" id="txtDriverPlate">
+          <div class="clearfix"></div>
+          <br>
+          <div class="row">
+            <div class="col-4">
+              <label>No. Telp</label>
+            </div>
+            <div class="col-8">
+              <input type="number" name="phone" class="form-control pull-right" id="txtTransportPhone">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+          <br>
+          <div class="row">
+            <div class="col-4">
+              <label>Email</label>
+            </div>
+            <div class="col-8">
+              <input type="email" name="email" class="form-control pull-right" id="txtTransportEmail">
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Simpan Data</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </form>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Simpan Data</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 @endsection

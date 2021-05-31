@@ -1,7 +1,15 @@
 <script type="text/javascript">
-$(window).on('load',function() {
+$(window).on('load',function(event)
+{
+  @if (Session::has('excel'))
+    event.preventDefault();
+    $.when(window.location.assign("{{url('/')}}/delivery/export&id={{Session::get('excel')}}")).done(function() {
+      setTimeout(function(){ $('.page-loader').removeClass('show'); }, 100);
+    });
+  @else
     setTimeout(function(){ $('.page-loader').removeClass('show'); }, 100);
-  });
+  @endif
+});
 $.fn.datepicker.dates['id'] = {
     days: ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"],
     daysShort: ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
@@ -331,7 +339,7 @@ $('body').on('click','a.finish-delivery',function(event) {
             preConfirm  : (hapus) =>{
             if (hapus.toUpperCase() == 'SELESAI') {
               // Swal.fire('Belom bisa wkjwkw', '', 'success')
-              var url = "{{url('/')}}//delivery/finish&id=" + $(this).data('id');
+              var url = "{{url('/')}}/delivery/finish&id=" + $(this).data('id');
               $(".page-loader").addClass('show');
               window.location.href = url;
             }
@@ -352,7 +360,8 @@ $('body').on('click','a.finish-delivery',function(event) {
             // showDenyButton    : true
           }).then((confirm) => {
             if(confirm.isConfirmed){
-              Swal.fire('Belom bisa wkjwkw', '', 'success');
+              window.location.href = "{{url('/')}}/delivery/exportFinish&id="+ $(this).data('id');
+              // Swal.fire('Belom bisa wkjwkw', '', 'success');
             }
           });
         }

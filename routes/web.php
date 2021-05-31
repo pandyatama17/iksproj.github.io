@@ -64,6 +64,7 @@ Route::group(['middleware'=>['auth']], function()
   // export routes
   Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');
   Route::get('/delivery/finish&id={id}', 'OperationalController@finishDelivery')->name('finish_delivery');
+  Route::get('/delivery/exportFinish&id={id}', 'OperationalController@exportFinishDelivery')->name('export_finish_delivery');
 
 
   Route::get('/logout',function()

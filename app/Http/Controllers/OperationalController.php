@@ -371,4 +371,55 @@ class OperationalController extends Controller
       }
       return redirect()->route('master_data');
     }
+    public function exportFinishDelivery($id)
+    {
+      $delivery = Delivery::find($id);
+      $dos = DeliveryOrder::where('delivery_id',$id);
+      $exported = new ExportedDelivery;
+
+      $exported->delivery_id = $id;
+      $ft = 0;
+      $ff = 0;
+      $fr = 0;
+      foreach ($dos->get() as $do) {
+        $ft += $do->tonnage;
+        $ff += $do->fare;
+      }
+      $fr = count($dos->get());
+
+      $exported->final_tonnage = $ft;
+      $exported->final_fare = $ff;
+      $exported->final_rit = $fr;
+
+      try {
+        $delivery->exported = true;
+        $delivery->save();
+        // return redirect()->route('finishDelivery',$id);
+      } catch (\Exception $e) {
+        echo "gagal! ".$e->getMessage();
+      }
+      if ($delivery->exported)
+      {
+              $delivery->show_available = false;
+              try {
+                $delivery->save();
+                $exported->save();
+                $dos->delete();
+                session()->flash('message-type', 'success');
+                session()->flash('message-title', 'Berhasil');
+                session()->flash('message', 'Rekapan '.$delivery->code.' berhasil diselesaikan!');
+              } catch (\Exception $e) {
+                session()->flash('message-type', 'error');
+                session()->flash('message-title', 'Gagal');
+                session()->flash('message', 'Rekapan gagal di selesaikan! trace : '.$e->getMessage());
+              }
+          session()->flash('excel', $id);
+      }
+      else {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Rekapan gagal di selesaikan! rekapan ini belum di export ');
+      }
+      return redirect()->route('master_data');
+    }
 }

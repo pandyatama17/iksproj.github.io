@@ -13,6 +13,7 @@ use App\ExportedDelivery;
 use DB;
 use Carbon\Carbon;
 use Auth;
+use Session;
 class AjaxController extends Controller
 {
     public function getDriversFromOwner($owner_id)
@@ -101,6 +102,10 @@ class AjaxController extends Controller
     {
       $data = Delivery::leftJoin('pools as p', 'p.id','=','deliveries.pool_id')->select('deliveries.*','p.name as pool');
 
+      if (Session::has('pool')) {
+        $data->where('pool_id',Session::get('pool'));
+      }
+
       $columns = array(
                             0 =>'code',
                             1 =>'created_at',
@@ -109,7 +114,12 @@ class AjaxController extends Controller
                             4=> 'sender_name',
                             5=> 'recipient_name',
                         );
-      $totalData = Delivery::count();
+      if (Session::has('pool')) {
+        $totalData = Delivery::where('pool_id',Session::get('pool'))->count();
+      }
+      else {
+        $totalData = Delivery::count();
+      }
       $totalFiltered = $totalData;
       $limit = $request->input('length');
       $start = $request->input('start');

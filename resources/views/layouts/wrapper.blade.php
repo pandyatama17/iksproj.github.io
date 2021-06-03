@@ -152,7 +152,7 @@
 
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>Version</b> pre-1.0
+      <b>Version</b> pre-2.0
     </div>
     <strong>Copyright &copy; @if(Carbon\Carbon::now()->format("Y") != '2021')2021 - @endif{{Carbon\Carbon::now()->format("Y")}} <a href="#">Menafarsoft</a>.</strong> All rights reserved.
   </footer>

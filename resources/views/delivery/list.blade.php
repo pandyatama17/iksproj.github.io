@@ -104,25 +104,30 @@
       <div class="table-responsive">
         <table class="table table-bordered table-striped">
           <thead>
-            <tr>
+            {{-- <tr>
               <th class="align-middle" style="width:15%" rowspan="2">No. Surat</th>
-              {{-- <th>tgl.</th> --}}
               <th class="align-middle" rowspan="2">Tonase</th>
               <th class="align-middle" rowspan="2">Pengambilan</th>
-              {{-- <th rowspan="2">Sopir</th>
-              <th rowspan="2">No. Plat</th> --}}
-              <th colspan="3" class="text-center">Angkutan</th>
-              {{-- <th style="width:8%" rowspan="2"><span class="text-center">Angkutan</span></th> --}}
               <th colspan="2" class="text-center">Blending</th>
               <th rowspan="2" class="text-center"  style="width:2%; border:none!important; background:#fff!important"></th>
             </tr>
             <tr>
-              {{-- <th>Tarif</th> --}}
               <th>Nama Sopir</th>
               <th>No. Plat</th>
               <th>Nama Angkutan</th>
-              <th>Pengambilan</th>
+              <th>Kasbon UJ</th>
               <th>Tonase</th>
+            </tr> --}}
+            <tr>
+              <th>No. Surat</th>
+              <th>Tonase</th>
+              <th>Kasbon UJ</th>
+              <th>No. Polisi</th>
+              <th>Nama Sopir</th>
+              <th>Angkutan</th>
+              <th>Asal Bl.</th>
+              <th>UJ Bl.</th>
+              <th>Tonase Bl.</th>
             </tr>
           </thead>
           <tbody>
@@ -131,39 +136,40 @@
 
                 <td>
                   <b>{{$d->do_number}}</b>
-                  @if ($d->blending_origin)
+                  {{-- @if ($d->blending_origin)
                     <small>({{$d->blending_origin}})</small>
-                  @endif
+                  @endif --}}
                 </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
-                <td>
+                <td max-width="100%" style="white-space: nowrap;">
                   {{$d->tonnage}} Kg.
                   {{-- @if ($d->blending_origin)
                   <small>({{$d->tonnage - $d->blending_tonnage}}Kg. + {{$d->blending_tonnage}}Kg.)</small>
                 @endif --}}
               </td>
-              <td>{{rupiah($d->fare)}}</td>
-                <td>
+              <td max-width="100%" style="white-space: nowrap;">{{rupiah($d->fare)}}</td>
+              <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
+                <td max-width="100%" style="white-space: nowrap;">
                   @if ($d->driver_name)
                     {{$d->driver_name}}
                   @else
                     {{$d->driver}}
                   @endif
                 </td>
-                <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
                 <td>{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
                 {{-- <td>{{$d->transport}}</td> --}}
                 @if ($d->blending_origin)
+                  <td max-width="100%" style="white-space: nowrap;">{{$d->blending_origin}}</td>
                   {{-- <td>{{$d->blending_destination}}</td> --}}
-                  <td>{{rupiah($d->blending_fare)}}</td>
+                  <td max-width="100%" style="white-space: nowrap;">{{rupiah($d->blending_fare)}}</td>
                   {{-- <td>{{rupiah($d->blending_fare2)}}</td> --}}
                   <td>{{$d->blending_tonnage}}Kg.</td>
                 @else
-                  <td colspan="2" class="text-center">-</td>
+                  <td colspan="3" class="text-center">-</td>
                 @endif
                 @if ($data->show_available)
                   <td style="{{--border:none!important;--}} background:#fff!important">
-                    <button type="button" class="btn btn-link text-orange editDO" data-doid="{{$d->id}}">
+                    <button type="button" class="btn btn-link text-orange editDO" style="padding:0px" data-doid="{{$d->id}}">
                       <i class="fa fa-edit"></i>
                     </button>
                   </td>
@@ -206,7 +212,7 @@
           <div class="row">
             <div class="col-6">
               <div class="form-group">
-                <label for="">Nama Tongkang</label>
+                <label for="">Nama Tongkang (Tug Boat/Bargain)</label>
                 <input type="text" class="form-control" value="{{$data->code}}" readonly id="codeTxt">
               </div>
             </div>
@@ -297,7 +303,7 @@
             <div class="row">
               <div class="col-7 col-lg-4">
                 <div class="form-group">
-                  <label>Biaya Pengambilan Blending</label>
+                  <label>UJ Blending</label>
                   <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">Rp</span>
@@ -365,7 +371,7 @@
             </div> --}}
             <div class="col-7 col-lg-5">
               <div class="form-group">
-                <label>Pengambilan</label>
+                <label>Kasbon UJ</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Rp</span>

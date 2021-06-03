@@ -1,5 +1,5 @@
 @extends('layouts.wrapper')
-@section('title','Form Rekapan')
+@section('title','Form Rekapitulasi')
 @section('content')
 <form class="form" action="@if($method == 'new'){{route('submit_delivery')}}@elseif($method=='edit') {{route('update_delivery')}} @endif" method="post">
   @csrf
@@ -21,8 +21,8 @@
       <div class="card-body row">
         <div class="col-lg-6 col-sm-12">
           <div class="form-group">
-            <label>Kode Tongkang</label>
-            <input type="text" name="code" @if ($method == 'edit') value="{{$delivery->code}}" @endif id="codeTxt" class="form-control" placeholder="Kode/Nama Tongkang">
+            <label>Tug Boat / Bargain</label>
+            <input type="text" name="code" @if ($method == 'edit') value="{{$delivery->code}}" @endif id="codeTxt" class="form-control" placeholder="Tug Boat / Bargain Tongkang">
           </div>
           <div class="form-group">
             <label>Petugas</label>
@@ -31,7 +31,7 @@
           </div>
           @if (Auth::user()->role == 0 )
             <div class="form-group">
-              <label>Pool</label>
+              <label>Dermaga</label>
               <select class="form-control" name="pool_id">
                 <option @if (Auth::user()->id < 2 && $method=="new") selected @endif disabled>Pilih pool...</option>
                 @foreach (App\Pool::all() as $pool)
@@ -57,12 +57,12 @@
             <input type="text" name="customer_name" @if($method=="edit") value="{{$delivery->customer_name}}" @endif class="form-control" id="customerTxt" data-header="3" autocomplete="off" placeholder="Nama Customer">
           </div>
           <div class="form-group">
-            <label>Pengirim</label>
-            <input type="text" name="sender_name" id="senderTxt" @if($method=="edit") value="{{$delivery->sender_name}}" @endif class="form-control" placeholder="Nama Pengirim">
+            <label>Asal</label>
+            <input type="text" name="sender_name" id="senderTxt" @if($method=="edit") value="{{$delivery->sender_name}}" @endif class="form-control" placeholder="Asal">
           </div>
           <div class="form-group">
-            <label>Penerima</label>
-            <input type="text" name="recipient_name" id="recipientTxt" @if($method=="edit") value="{{$delivery->recipient_name}}" @endif class="form-control" placeholder="Nama Penerima">
+            <label>Tujuan</label>
+            <input type="text" name="recipient_name" id="recipientTxt" @if($method=="edit") value="{{$delivery->recipient_name}}" @endif class="form-control" placeholder="Tujuan">
           </div>
         </div>
       </div>

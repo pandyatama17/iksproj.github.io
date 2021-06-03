@@ -13,7 +13,7 @@ class DataSeeder extends Seeder
      */
     public function run()
     {
-      for ($i=3; $i <=50 ; $i++) {
+      for ($i=3; $i <=100 ; $i++) {
       //   DB::table('deliveries')->insert([
       //     'id' => $i,
       //      'code' => 'Banyak-'.sprintf("%03d", $i),
@@ -31,13 +31,13 @@ class DataSeeder extends Seeder
       //       'final_rit' => rand(1,10),
       //       'final_tonnage' => substr(str_shuffle("0123456789"), 0, 4)
       //   ]);
-            DB::table('vehicle_owners')->insert([
-                'name' =>strtoupper(Str::random(3)),
-                'email' => Str::random(10).'@gmail.com',
-                'phone' => rand(1,12),
-                'address' => Str::random(100)
-            ]);
-      }
+      //       DB::table('vehicle_owners')->insert([
+      //           'name' =>strtoupper(Str::random(3)),
+      //           'email' => Str::random(10).'@gmail.com',
+      //           'phone' => rand(1,12),
+      //           'address' => Str::random(100)
+      //       ]);
+      // }
 
       // DB::table('deliveries')->insert([
       //     'code' => 'DOMCS',
@@ -58,15 +58,19 @@ class DataSeeder extends Seeder
       //     'status' => 2,
       //     'tonnage' => 200
       // ]);
-      // DB::table('delivery_orders')->insert([
-      //     'delivery_id' => 1,
-      //     'do_number' => 'DOMCS002',
-      //     'date' => Carbon::now(),
-      //     'driver_id' => 2,
-      //     'fare' => 100000,
-      //     'status' => 2,
-      //     'tonnage' => 200
-      // ]);
+      $rand = rand(1,10);
+      DB::table('delivery_orders')->insert([
+          'delivery_id' => 28,
+          'do_number' => 'DOSP/001'.sprintf('%03d', $i),
+          'driver_id' => $rand,
+          'license_plate_no' => \App\Driver::find($rand)->license_plate_no,
+          'driver_name' => \App\Driver::find($rand)->name,
+          'fare' => 500000,
+          'status' => 2,
+          'tonnage' => 1000,
+          'created_at' => Carbon::now(),
+          'updated_at' => Carbon::now()
+      ]);
       // DB::table('deliveries')->insert([
       //     'code' => 'DOPCSS',
       //     'admin' => '1',
@@ -96,5 +100,6 @@ class DataSeeder extends Seeder
       //     'tonnage' => 200
       // ]);
 
+      }
     }
 }

@@ -118,4 +118,24 @@ class ManagementController extends Controller
               ->with('enddate', $enddate)
               ->with('deliveries', $deliveries);
     }
+    public function updateUser(Request $r)
+    {
+      $user = User::find($r->user_id);
+
+      $user->name = $r->name;
+      $user->email = $r->email;
+      $user->pool_id = $r->pool_id;
+
+      try {
+        $user->save();
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil');
+        session()->flash('message', 'Informasi admin berhasil diubah');
+      } catch (\Exception $e) {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Informasi admin gagal diubah! trace : '.$e->getMessage());
+      }
+      return redirect()->route('show_users');
+    }
 }

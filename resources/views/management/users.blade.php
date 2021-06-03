@@ -29,17 +29,21 @@
                           Pool {{\App\Pool::find($u->pool_id)->name}}
                         </span>
                       </a>
+                    @elseif ($u->role == 0)
+                      <span class="badge badge-danger">Superadmin</span>
                     @else
                       <span class="badge badge-warning">Admin</span>
                     @endif
                   </td>
                   <td>
-                    <a href="#" class="text-secondary triggerEditUserInfo" data-id="{{$u->id}}" data-name="{{$u->name}}" data-email="{{$u->email}}" data-pool={{$u->pool_id}}>
-                      <i class="fa fa-info-circle"></i> | Edit Informasi
-                    </a> <br>
-                    <a href="#"  class="text-secondary">
+                    @if ($u->role > 0 )
+                      <a href="#" class="text-secondary triggerEditUserInfo" data-id="{{$u->id}}" data-name="{{$u->name}}" data-email="{{$u->email}}" data-pool={{$u->pool_id}}>
+                        <i class="fa fa-info-circle"></i> | Edit Informasi
+                      </a> <br>
+                    @endif
+                    {{-- <a href="#"  class="text-secondary">
                       <i class="fa fa-key"></i> | Edit Password
-                    </a>
+                    </a> --}}
                   </td>
                 </tr>
               @endforeach
@@ -58,7 +62,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="" action="index.html" method="post">
+      <form class="" action="{{route('update_user')}}" method="post">
+        @csrf
+        <input type="hidden" name="user_id" id="txtHidUser">
         <div class="modal-body">
           <div class="form-group">
             <label>Nama</label>
@@ -79,7 +85,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </form>

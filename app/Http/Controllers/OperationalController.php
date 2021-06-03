@@ -321,6 +321,10 @@ class OperationalController extends Controller
       try {
         $data->exported = true;
         $data->save();
+        if (strpos($data->code,'/')) {
+          $oldcode = $data->code;
+          $data->code = str_replace('/','_',$oldcode);
+        }
         return Excel::Download(new DeliveryExport($r->id), $data->code."-".Carbon::now()->format('dmY').".xlsx");
       } catch (\Exception $e) {
         echo "gagal! ".$e->getMessage();

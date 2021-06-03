@@ -19,12 +19,12 @@
           <th>Tongkang</th>
           <th>Tanggal</th>
           <th>Customer</th>
-          <th class="none">Pool</th>
-          <th class="none">Pengirim</th>
-          <th class="none">Penerima</th>
+          <th class="none">Dermaga</th>
+          <th class="none">Asal</th>
+          <th class="none">Tujuan</th>
           <th>Muatan</th>
           <th class="none">Tonase</th>
-          <th>Rit</th>
+          <th>Ritase</th>
           <th>Tindakan</th>
         </thead>
         <tbody>

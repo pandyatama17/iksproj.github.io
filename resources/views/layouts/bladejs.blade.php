@@ -387,15 +387,16 @@ $(".triggerEditUserInfo").on('click',function(event)
 {
   var data = $(this).data();
   pageload();
-  $("#userID").val(data.id);
+  $("#txtHidUser").val(data.id);
   $("#txtUserName").val(data.name);
   $("#txtUserEmail").val(data.email);
   if (data.pool == 0) {
     $("#selectPool").attr('disabled','true');
+    // $("#selectPool").hide();
   }
   else {
     $("#selectPool").removeAttr('disabled');
-
+    // $("#selectPool").show();
   }
   pageload();
   $("#userInfoModal").modal('show');

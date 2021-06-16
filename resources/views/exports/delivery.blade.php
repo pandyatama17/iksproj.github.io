@@ -55,28 +55,30 @@
 <tr style="border:1px solid black">
   <th style="border:1px solid black">Tgl.</th>
   <th style="border:1px solid black">No. Ritase</th>
+  <th style="border:1px solid black">No. Surat Jalan</th>
   {{-- <th style="border:1px solid black">No. Surat Jalan</th> --}}
+  <th style="border:1px solid black">No. Plat</th>
+  <th style="border:1px solid black">Nama Sopir</th>
+  <th style="border:1px solid black">Nama Angkutan</th>
   <th style="border:1px solid black">Tonase</th>
   <th style="border:1px solid black">Kasbon UJ</th>
-  <th style="border:1px solid black">Nama Angkutan</th>
-  <th style="border:1px solid black">No. Plat</th>
-  <th style="border:1px solid black">Sopir</th>
   <th style="border:1px solid black">Asal Blending</th>
   <th style="border:1px solid black">UJ Blending</th>
   {{-- <th style="border:1px solid black">Tonase Blending</th> --}}
   <th style="border:1px solid black">Keterangan</th>
 </tr>
-@foreach ($details as $d)
+@foreach ($details as $index => $d)
   <tr>
     <td style="border:1px solid black">{{\Carbon\Carbon::parse($data->created_at)->format('d-m-Y')}}</td>
     {{-- <td style="border:1px solid black"><b>{{$d->do_number}}</b> @if ($d->blending_origin) (Blending {{$d->blending_origin}}) @endif</td> --}}
+    <td style="border:1px solid black">{{sprintf('%03d', $index+1)}}</td>
     <td style="border:1px solid black">{{str_replace($data->code,'',$d->do_number)}}</td>
     {{-- <td style="border:1px solid black"><b>{{$d->do_number}}</b> </td> --}}
-    <td style="border:1px solid black">{{$d->tonnage}}Kg.</td>
-    <td style="border:1px solid black">{{rupiah($d->fare)}}</td>
-    <td style="border:1px solid black">{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
     <td style="border:1px solid black; white-space:nowrap">{{$d->license_plate_no}}</td>
     <td style="border:1px solid black">{{$d->driver}}</td>
+    <td style="border:1px solid black">{{App\VehicleOwner::find(App\Driver::find($d->driver_id)->owner_id)->name}}</td>
+    <td style="border:1px solid black"> Kg.</td>
+    <td style="border:1px solid black">{{rupiah($d->fare)}}</td>
     @if ($d->blending_origin)
       {{-- <td style="border:1px solid black">{{$d->blending_destination}}</td>
       <td style="border:1px solid black">{{$d->blending_origin}}</td> --}}

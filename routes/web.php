@@ -37,6 +37,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
   Route::get('/delivery_order/new', 'OperationalController@newDeliveryOrder' )->name('new_do');
   Route::get('/delivery/edit&id={id}', 'OperationalController@editDelivery' )->name('edit_delivery');
+  Route::get('/delivery/activate&id={id}', 'OperationalController@activateDelivery' )->name('activate_delivery');
 
   //ajax get routes
   Route::get('/ajaxCall/drivers&transport={owner_id}', 'AjaxController@getDriversFromOwner')->name('ajax_get_drivers');

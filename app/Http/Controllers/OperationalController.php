@@ -358,7 +358,7 @@ class OperationalController extends Controller
               try {
                 $delivery->save();
                 $exported->save();
-                $dos->delete();
+                // $dos->delete();
                 session()->flash('message-type', 'success');
                 session()->flash('message-title', 'Berhasil');
                 session()->flash('message', 'Rekapan '.$delivery->code.' berhasil diselesaikan!');
@@ -408,7 +408,7 @@ class OperationalController extends Controller
               try {
                 $delivery->save();
                 $exported->save();
-                $dos->delete();
+                // $dos->delete();
                 session()->flash('message-type', 'success');
                 session()->flash('message-title', 'Berhasil');
                 session()->flash('message', 'Rekapan '.$delivery->code.' berhasil diselesaikan!');
@@ -425,5 +425,22 @@ class OperationalController extends Controller
         session()->flash('message', 'Rekapan gagal di selesaikan! rekapan ini belum di export ');
       }
       return redirect()->route('master_data');
+    }
+    public function activateDelivery($id)
+    {
+      $d = Delivery::find($id);
+      $d->show_available = true;
+      try {
+        $d->save();
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil');
+        session()->flash('message', 'Rekapan '.$d->code.' berhasil biaktifkan!');
+      } catch (\Exception $e) {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', 'Rekapan gagal di Diaktifkan! trace : '.$e->getMessage());
+      }
+      return redirect()->route('show_delivery',$id);
+
     }
 }

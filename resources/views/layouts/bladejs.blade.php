@@ -142,7 +142,8 @@ $("#addDOButton").on('click',function() {
   const lastIndex = $("#indexDOCount").val();
   var newIndex = parseInt(lastIndex) + 1;
   const index = zeroFill(newIndex,3);
-  const code = donum.data('code') + index;
+  // const code = donum.data('code') + index;
+  const code = index;
   setTimeout(function(){ $("#blendingCheck").iCheck('uncheck');}, 1);
   donum.val(code);
   $("#addDOModal").modal('show');

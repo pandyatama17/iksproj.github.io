@@ -188,11 +188,11 @@ class AjaxController extends Controller
             // if ($delivery->exported == false) {
               $nestedData['options'] .='<br>
                                         <a href="'.route('export_delivery',$delivery->id).'" class="text-success url-redirect url-unavailable">
-                                          <i class="fa fa-file-excel"></i> | Import Excel
+                                          <i class="fa fa-file-excel"></i> | Unduh Excel
                                         </a>';
             if ($delivery->exported) {
               $nestedData['options'] .= '<br>
-                                        <small class="text-success"><i>Diimport tgl :  '.$delivery->updated_at.' </i></small>';
+                                        <small class="text-success"><i>Diunduh tgl :  '.$delivery->updated_at.' </i></small>';
             }
             if (Auth::user()->pool_id == $delivery->pool_id || Auth::user()->role < 2) {
               $nestedData['options'] .= '<br>
@@ -214,6 +214,12 @@ class AjaxController extends Controller
                                       <small class="text-primary"><i>Rekap Selesai ('.$delivery->created_at.')</i></small>
                                     ';
             $nestedData['options'] = '<small class="text-primary"><i>Rekap Selesai ('.$delivery->created_at.')</i></small>';
+            if (Auth::user()->role == 0) {
+              $nestedData['options'] .= '<br>
+                                          <a href="" class="text-danger url-redirect url-unavailable activate-delivery" data-id="'.$delivery->id.'" data-code="'.$delivery->code.'">
+                                            <i class="fa fa-file-upload"></i> | Aktifkan Rekap
+                                          </a>';
+            }
           }
           $data[] = $nestedData;
 

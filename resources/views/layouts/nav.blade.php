@@ -157,7 +157,7 @@
       <li class="nav-item">
         <a href="{{route('show_pools')}}" class="nav-link url-redirect">
           <i class="nav-icon fa fa-sitemap"></i>
-          <p>Data Pool</p>
+          <p>Dermaga</p>
         </a>
       </li>
       {{-- <li class="nav-item">

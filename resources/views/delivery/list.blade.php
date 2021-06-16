@@ -25,7 +25,7 @@
           </a>
         @endif
         <a type="button" class="btn btn-tool bg-success" href="{{route('export_delivery',$data->id)}}">
-          <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Import Excel</span>
+          <i class="fas fa-file-excel"></i> <span class="d-none d-md-inline">Unduh Excel</span>
         </a>
         {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
           <i class="fas fa-minus"></i>
@@ -120,14 +120,14 @@
             </tr> --}}
             <tr>
               <th>No. Surat</th>
-              <th>Tonase</th>
+              {{-- <th>Tonase</th> --}}
               <th>Kasbon UJ</th>
               <th>No. Polisi</th>
               <th>Nama Sopir</th>
               <th>Angkutan</th>
               <th>Asal Bl.</th>
               <th>UJ Bl.</th>
-              <th>Tonase Bl.</th>
+              {{-- <th>Tonase Bl.</th> --}}
             </tr>
           </thead>
           <tbody>
@@ -141,12 +141,12 @@
                   @endif --}}
                 </td>
                 {{-- <td>{{Carbon\Carbon::parse($d->date)->format('d-m-Y')}}</td> --}}
-                <td max-width="100%" style="white-space: nowrap;">
-                  {{$d->tonnage}} Kg.
+                {{-- <td max-width="100%" style="white-space: nowrap;">
+                  {{$d->tonnage}} Kg. --}}
                   {{-- @if ($d->blending_origin)
                   <small>({{$d->tonnage - $d->blending_tonnage}}Kg. + {{$d->blending_tonnage}}Kg.)</small>
                 @endif --}}
-              </td>
+              {{-- </td> --}}
               <td max-width="100%" style="white-space: nowrap;">{{rupiah($d->fare)}}</td>
               <td style="white-space:nowrap">{{$d->license_plate_no}}</td>
                 <td max-width="100%" style="white-space: nowrap;">
@@ -163,9 +163,9 @@
                   {{-- <td>{{$d->blending_destination}}</td> --}}
                   <td max-width="100%" style="white-space: nowrap;">{{rupiah($d->blending_fare)}}</td>
                   {{-- <td>{{rupiah($d->blending_fare2)}}</td> --}}
-                  <td>{{$d->blending_tonnage}}Kg.</td>
+                  {{-- <td>{{$d->blending_tonnage}}Kg.</td> --}}
                 @else
-                  <td colspan="3" class="text-center">-</td>
+                  <td colspan="2" class="text-center">-</td>
                 @endif
                 @if ($data->show_available)
                   <td style="{{--border:none!important;--}} background:#fff!important">
@@ -254,7 +254,7 @@
                 <input type="text" class="form-control datepicker" name="date" id="dateTxt" autocomplete="off">
               </div>
             </div> --}}
-            <div class="col-lg-3 col-5">
+            {{-- <div class="col-lg-3 col-5">
               <div class="form-group">
                 <label for="">Tonase</label>
                 <div class="input-group">
@@ -264,7 +264,9 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> --}}
+            <input type="hidden" class="form-control" name="tonnage" autocomplete="off" id="tonnageTxt" value="0">
+
             <div class="col-5 col-lg-3">
               <div class="form-group">
                 <br>
@@ -288,7 +290,7 @@
                   <input type="text" class="form-control" name="blending_origin" id="blendingOriginTxt">
                 </div>
               </div>
-              <div class="col-lg-3 col-5">
+              {{-- <div class="col-lg-3 col-5">
                 <div class="form-group">
                   <label for="">Tonase Blending</label>
                   <div class="input-group">
@@ -298,9 +300,10 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="row">
+              </div> --}}
+              <input type="hidden" class="form-control" name="blending_tonnage" id="blendingTonnageTxt">
+            {{-- </div>
+            <div class="row"> --}}
               <div class="col-7 col-lg-4">
                 <div class="form-group">
                   <label>UJ Blending</label>

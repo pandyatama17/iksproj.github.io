@@ -23,7 +23,7 @@
           <th class="none">Asal</th>
           <th class="none">Tujuan</th>
           <th>Muatan</th>
-          <th class="none">Tonase</th>
+          <th class="none">Kasbon UJ</th>
           <th>Ritase</th>
           <th>Tindakan</th>
         </thead>

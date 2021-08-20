@@ -169,7 +169,13 @@ class AjaxController extends Controller
           $nestedData['freight_load'] = $delivery->freight_load;
           if ($delivery->show_available)
           {
-            $nestedData['tonnage'] = array_sum(DeliveryOrder::where('delivery_id',$delivery->id)->pluck('tonnage')->toArray())."Kg.";
+            // $nestedData['tonnage'] = array_sum(DeliveryOrder::where('delivery_id',$delivery->id)->pluck('tonnage')->toArray())."Kg.";
+            $dels = DeliveryOrder::where('delivery_id',$delivery->id)->get();
+            $total_fare = 0;
+            foreach ($dels as $dos) {
+              $total_fare += $dos->fare;
+            }
+            $nestedData['tonnage'] = rupiah($total_fare);
             $nestedData['rit'] = '<span class="badge badge-info">'.count(DeliveryOrder::where('delivery_id',$delivery->id)->get()).' Rit</span>';
             // $nestedData['options'] = '<a href="'.route('show_delivery',$delivery->id).'" class="btn btn-sm btn-primary url-redirect">
             //                             <i class="fa fa-search"></i> | Surat Jalan
@@ -207,7 +213,8 @@ class AjaxController extends Controller
 
           }
           else {
-            $nestedData['tonnage'] = ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_tonnage."Kg.";
+            // $nestedData['tonnage'] = ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_tonnage."Kg.";
+            $nestedData['tonnage'] = rupiah(ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_fare);
             $nestedData['rit'] = '<span class="badge badge-secondary">'.ExportedDelivery::where('delivery_id',$delivery->id)->first()->final_rit.' Rit</span>';
             $nestedData['options'] = '<small class="text-success"><i>Rekap telah di import Excel</i></small>
                                       <br>
@@ -216,7 +223,7 @@ class AjaxController extends Controller
             $nestedData['options'] = '<small class="text-primary"><i>Rekap Selesai ('.$delivery->created_at.')</i></small>';
             if (Auth::user()->role == 0) {
               $nestedData['options'] .= '<br>
-                                          <a href="" class="text-danger url-redirect url-unavailable activate-delivery" data-id="'.$delivery->id.'" data-code="'.$delivery->code.'">
+                                          <a href="'.route('activate_delivery',$delivery->id).'" class="text-danger url-redirect url-unavailable activate-delivery" data-id="'.$delivery->id.'" data-code="'.$delivery->code.'">
                                             <i class="fa fa-file-upload"></i> | Aktifkan Rekap
                                           </a>';
             }

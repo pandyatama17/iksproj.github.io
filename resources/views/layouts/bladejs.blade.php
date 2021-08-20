@@ -57,6 +57,13 @@ $(document).ready(function()
      checkboxClass: 'icheckbox_flat-blue',
      radioClass: 'iradio_flat-blue',
   });
+  // $(".poolKind").on('ifClicked', function(event){
+  //     alert("alert");
+  // });
+  $('input[type=radio][name=poolKind]').change(function() {
+      // $("#typeNameLabel").text("Nama "+$(this).val());
+      $("#txtPoolName").val($(this).val()+" ");
+  });
   @if (str_contains(url()->current(), '/management/journaling'))
 
     var start = '{{$startdate}}', end = '{{$enddate}}';

@@ -138,4 +138,24 @@ class ManagementController extends Controller
       }
       return redirect()->route('show_users');
     }
+
+    public function storePool(Request $r)
+    {
+      $pool = new Pool;
+      $pool->name = $r->name;
+      $pool->phone = "'".$r->phone;
+      $pool->address = $r->address;
+
+      try {
+        $pool->save();
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil');
+        session()->flash('message', $pool->poolKind.' berhasil ditambah');
+      } catch (\Exception $e) {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal');
+        session()->flash('message', $pool->poolKind.' gagal ditambah! trace : '.$e->getMessage());
+      }
+      return redirect()->route('show_pools');
+    }
 }

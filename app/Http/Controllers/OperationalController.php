@@ -434,7 +434,7 @@ class OperationalController extends Controller
         $d->save();
         session()->flash('message-type', 'success');
         session()->flash('message-title', 'Berhasil');
-        session()->flash('message', 'Rekapan '.$d->code.' berhasil biaktifkan!');
+        session()->flash('message', 'Rekapan '.$d->code.' berhasil di aktifkan!');
       } catch (\Exception $e) {
         session()->flash('message-type', 'error');
         session()->flash('message-title', 'Gagal');

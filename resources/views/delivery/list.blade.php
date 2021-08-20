@@ -181,7 +181,7 @@
       </div>
     </div>
     <!-- /.card-body -->
-    <div class="card-footer d-block d-md-none">
+    {{-- <div class="card-footer d-block d-md-none">
       @if ($data->show_available)
         <button type="button" class="btn bg-navy" data-toggle="modal" data-target="#addDOModal">
           <i class="fas fa-plus"></i> Tambah Surat
@@ -190,7 +190,7 @@
       <button type="button" class="btn bg-success" onclick="Swal.fire('belum ada')">
         <i class="fas fa-file-excel"></i> Import Excel
       </button>
-    </div>
+    </div> --}}
     <!-- /.card-footer-->
   </div>
   {{-- modal --}}

@@ -62,6 +62,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/delivery/update','OperationalController@updateDelivery')->name('update_delivery');
   Route::post('/management/transport/new/submit','ManagementController@storeTransport')->name('submit_transport');
   Route::post('/management/user/update', 'ManagementController@updateUser')->name('update_user');
+  Route::post('/management/pool/store', 'ManagementController@storePool')->name('submit_pool');
 
   // export routes
   Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');

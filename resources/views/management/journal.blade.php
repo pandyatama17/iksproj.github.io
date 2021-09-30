@@ -2,7 +2,7 @@
 @section('title','Tutup Buku')
 @section('content')
   <div class="row">
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-3">
       <div class="card card-primary">
         <div class="card-header">
           <h3 class="card-title">Tutup Buku</h3>
@@ -32,8 +32,8 @@
         </form>
       </div>
     </div>
-    <div class="col-12 col-lg-8" id="journalCol">
-      
+    <div class="col-12 col-lg-9" id="journalCol">
+
     </div>
   </div>
 @endsection

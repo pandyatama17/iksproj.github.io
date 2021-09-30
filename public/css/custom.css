@@ -5,7 +5,22 @@
 	h5{
 		font-size: 120% !important;
 	}
+	.dataTables_wrapper .dt-buttons {
+		margin-top: 10px;
+		position: relative;
+		left: 160px;
+		float:right;
+		z-index: 9998;
+	}
+	.journalButtons{
+		top:48px;
+		position:relative;
+		z-index: 9999;
+	}
 }
+@media screen and (min-width: 600px)  {
+        .mobile-break { display: none; }
+    }
 .pulse {
 	border: 1px solid lightgray;
 	height: 40px;
@@ -134,4 +149,25 @@
     height: 100%;
     line-height: inherit;
     padding: 0.5rem 1rem;
+}
+table.dataTable tbody td.select-checkbox,
+table.dataTable thead th.select-checkbox {
+  position: relative;
+}
+table.dataTable tbody td.select-checkbox:before,
+table.dataTable tbody td.select-checkbox:after{
+  display: block;
+  position: absolute;
+  top: 1.2em;
+  left: 60%;
+  width: 12px;
+  height: 12px;
+  box-sizing: border-box;
+}
+table.dataTable tbody td.select-checkbox:before{
+  content: ' ';
+  /* margin-top: -6px; */
+  /* margin-left: 3px; */
+  border: 1px solid black;
+  border-radius: 3px;
 }

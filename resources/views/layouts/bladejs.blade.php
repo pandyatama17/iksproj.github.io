@@ -32,6 +32,96 @@ $(document).ready(function()
   $('.datatable-responsive').DataTable({
     "responsive": true
   });
+  var journalTable = $("#journalTable").DataTable({
+    "responsive": true, "lengthChange": false, "autoWidth": false,
+    'columnDefs': [ {
+            'orderable': false,
+            // 'className': 'select-checkbox',
+            // 'targets':   0,
+            // 'width': "3%"
+        } ],
+    "select": {
+            "style": "multi",
+             // 'selector': 'td:first-child'
+        },
+    "buttons": [
+        {extend: "excel", text:"<i class='fa fa-file-excel'></i> Excel", className: "btn-sm btn-success",exportOptions: {columns: ':visible'}},
+        {extend: "pdf", text:"<i class='fa fa-file-pdf'></i> PDF", className: "btn-sm btn-danger",exportOptions: {columns: ':visible'}},
+        {extend: "print", text:"<i class='fa fa-print'></i> Print", className: "btn-sm btn-info",exportOptions: {columns: ':visible'}},
+        {extend:"colvis", text: "<i class='fa fa-list'></i> Tampilkan Kolom",className: "btn-sm"}]
+  });
+  // journalTable.buttons().container().appendTo('#journalTable_wrapper .col-md-6:eq(0)');
+  journalTable.buttons().container().appendTo('#journalExportsWrapper');
+
+  var selectedAll = false;
+    $("#journalSelectAll").on( "click", function(e) {
+      journalTable.rows().deselect();
+      if ($(this).is( ":checked" )) {
+        if (selectedAll != true) {
+          journalTable.rows().select();
+          selectedAll = true;
+          $("#allDataBtn").addClass("btn-primary").removeClass("btn-secondary");
+          $("#journalActionsWrapper").find("button").attr('disabled',true);
+        }
+        else {
+          journalTable.rows().deselect();
+          selectedAll = false;
+          $("#allDataBtn").addClass("btn-secondary").removeClass("btn-primary");
+          $("#journalActionsWrapper").find("button").attr('disabled',false);
+        }
+      }
+    });
+    $("#journalSelectActive").on( "click", function(e) {
+      if ($(this).is( ":checked" )) {
+          selectedAll = false;
+          $("#allDataBtn").addClass("btn-secondary").removeClass("btn-primary");
+          journalTable.rows().deselect();
+          journalTable.rows('.active').select();
+          $("#journalActionsWrapper").find("button").attr('disabled',true);
+      }
+    });
+    $("#journalSelectInactive").on( "click", function(e) {
+      if ($(this).is( ":checked" )) {
+          selectedAll = false;
+          $("#allDataBtn").addClass("btn-secondary").removeClass("btn-primary");
+          journalTable.rows().deselect();
+          journalTable.rows('.inactive').select();
+          $("#journalActionsWrapper").find("button").attr('disabled',false);
+      }
+    });
+  journalTable.on( 'select', function ( e, dt, type, indexes ) {
+    if ( type === 'row' ) {
+      var rows = journalTable.rows({selected:true}).indexes();
+      var selectedData = journalTable.cells(rows, 6).data().toArray().toString();
+      // var data = $.parseJSON(selectedData);
+      // var data = JSON.stingify(selectedData);
+      console.log(selectedData);
+      $("#deliveryIndexes").val(selectedData);
+    }
+  });
+    $('[data-toggle="tooltip"]').tooltip({
+                "html": true,
+                "delay": {"show": 500, "hide": 0},
+            });
+  $("#journalFormSubmit").on("click",function(e)
+  {
+    // e.preventDefault();
+    var datas = journalTable.cells(journalTable.rows({selected:true}).indexes(), 6).data().toArray().length + 1;
+    Swal.fire({
+      title : "Konfirmasi hapus data",
+      text : "apakah anda yakin akan menghapus ("+datas+") data?",
+      icon: "warning",
+      showCancelButton  : true,
+      cancelButtonColor : '#DC143C',
+      cancelButtonText  : "Batalkan"
+    }).then((confirm) => {
+      if(confirm.isConfirmed){
+        $("#journalFormSubmitButton").trigger("click");
+        // $('#journalForm').submit();
+        // window.location.href("");
+      }
+    });
+  });
   $('.datatable-sm').dataTable({
     "dom": '<"pull-left"f><"pull-right"l>tip',
     "bPaginate": true,
@@ -439,25 +529,25 @@ var table = $('#delivery-master-table').DataTable({
             className: 'align-middle'
         }]
     });
-$("#journalForm").on('submit',function(event)
-{
-  event.preventDefault();
-  $.post({
-    url: $(this).attr('action'),
-    data: $(this).serialize(),
-    dataType: 'HTML',
-    beforeSend: function(jqXHR, settings) {
-        $(".page-loader").addClass('show');
-    },
-    success: function(response) {
-      $("#journalCol").html(response);
-      $(".page-loader").removeClass('show');
-      // $('body, html').animate({
-      //   scrollTop: $("#do-row-"+index).offset().top
-      // }, 600);
-    }
-  });
-});
+// $("#journalForm").on('submit',function(event)
+// {
+//   event.preventDefault();
+//   $.post({
+//     url: $(this).attr('action'),
+//     data: $(this).serialize(),
+//     dataType: 'HTML',
+//     beforeSend: function(jqXHR, settings) {
+//         $(".page-loader").addClass('show');
+//     },
+//     success: function(response) {
+//       $("#journalCol").html(response);
+//       $(".page-loader").removeClass('show');
+//       // $('body, html').animate({
+//       //   scrollTop: $("#do-row-"+index).offset().top
+//       // }, 600);
+//     }
+//   });
+// });
 function pageload()
 {
     if($(".page-loader").hasClass('show'))

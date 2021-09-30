@@ -31,7 +31,8 @@ Route::group(['middleware'=>['auth']], function()
   Route::get('/management/transports', 'ManagementController@showTransports')->name('show_transports');
   Route::get('/management/users', 'ManagementController@showUsers')->name('show_users');
   Route::get('/management/pools', 'ManagementController@showPools')->name('show_pools');
-  Route::get('/management/journaling', 'ManagementController@showJournal')->name('show_journal');
+  // Route::get('/management/journaling', 'ManagementController@showJournal')->name('show_journal');
+  Route::get('/management/journal', 'ManagementController@showJournal2')->name('show_journal');
 
   // form routes
   Route::get('/delivery/new', 'OperationalController@newDelivery' )->name('new_delivery');
@@ -63,6 +64,7 @@ Route::group(['middleware'=>['auth']], function()
   Route::post('/management/transport/new/submit','ManagementController@storeTransport')->name('submit_transport');
   Route::post('/management/user/update', 'ManagementController@updateUser')->name('update_user');
   Route::post('/management/pool/store', 'ManagementController@storePool')->name('submit_pool');
+  Route::post('/management/journal/store', 'ManagementController@storeJournal')->name('submit_journal');
 
   // export routes
   Route::get('/delivery/export&id={id}', 'OperationalController@ExportDelivery')->name('export_delivery');

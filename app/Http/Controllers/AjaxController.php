@@ -105,6 +105,9 @@ class AjaxController extends Controller
       if (Session::has('pool')) {
         $data->where('pool_id',Session::get('pool'));
       }
+      if (Session::has('status')) {
+        $data->where('show_available',Session::get('status'));
+      }
 
       $columns = array(
                             0 =>'code',
@@ -116,6 +119,9 @@ class AjaxController extends Controller
                         );
       if (Session::has('pool')) {
         $totalData = Delivery::where('pool_id',Session::get('pool'))->count();
+      }
+      elseif (Session::has('status')) {
+        $totalData = Delivery::where('show_available',Session::get('status'))->count();
       }
       else {
         $totalData = Delivery::count();
@@ -283,5 +289,10 @@ class AjaxController extends Controller
       return view('includes.journals')
               ->with('dateDesc',$dateDesc)
               ->with('journal',$journal);
+    }
+    public function getJournalAjax()
+    {
+      $deliveries = Delivery::all();
+      return $deliveries;
     }
 }

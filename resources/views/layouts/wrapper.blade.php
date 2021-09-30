@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="{{asset('alt/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- DataTables -->
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('alt/plugins/datatables-select/css/select.bootstrap4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('alt/plugins/datatables-rowgroup/css/rowgroup.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <link rel="stylesheet" href="{{asset('alt/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
@@ -113,10 +115,10 @@
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col-sm-8">
             <h1>@yield('title')</h1>
           </div>
-          <div class="col-sm-6">
+          <div class="col-sm-4">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item">
                 @if(str_contains(url()->current(), '/management'))
@@ -179,6 +181,9 @@
 <script src="{{asset('alt/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- DataTables  & Plugins -->
 <script src="{{asset('alt/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json2/20160511/json2.min.js"></script>
+<script src="{{asset('alt/plugins/datatables-select/js/dataTables.select.min.js')}}"></script>
+<script src="{{asset('alt/plugins/datatables-rowgroup/js/dataTables.rowgroup.min.js')}}"></script>
 <script src="{{asset('alt/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('alt/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('alt/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>

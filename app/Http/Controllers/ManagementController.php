@@ -118,6 +118,12 @@ class ManagementController extends Controller
               ->with('enddate', $enddate)
               ->with('deliveries', $deliveries);
     }
+    public function showJournal2()
+    {
+      $deliveries = Delivery::all();
+      return view('management.journal2')
+              ->with('journal', $deliveries);
+    }
     public function updateUser(Request $r)
     {
       $user = User::find($r->user_id);
@@ -157,5 +163,38 @@ class ManagementController extends Controller
         session()->flash('message', $pool->poolKind.' gagal ditambah! trace : '.$e->getMessage());
       }
       return redirect()->route('show_pools');
+    }
+    public function storeJournal(Request $r)
+    {
+      // return $r;
+      $ids = explode(",", $r->ids);
+      // dd($ids);
+      $countUnavail = 0;
+      $countAvail = count($ids);
+      foreach ($ids as $id)
+      {
+        $del = Delivery::find($id);
+        if ($del->show_available)
+        {
+          $countUnavail++;
+        }
+      }
+      if ($countUnavail == 0)
+      {
+        foreach ($ids as $id)
+        {
+          $del = Delivery::find($id);
+          $del->delete();
+        }
+        session()->flash('message-type', 'success');
+        session()->flash('message-title', 'Berhasil Hapus');
+        session()->flash('message', '('.$countAvail.') data rekap berhasil dihapus');
+      }
+      else {
+        session()->flash('message-type', 'error');
+        session()->flash('message-title', 'Gagal Hapus');
+        session()->flash('message','terdapat ('.$countUnavail.') rekap yang masih aktif!');
+      }
+      return redirect()->route('show_journal');
     }
 }

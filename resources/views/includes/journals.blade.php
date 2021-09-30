@@ -5,6 +5,7 @@
   <div class="card-body table-responsive">
     <table class="table table-bordered">
       <thead>
+        <th>Status</th>
         <th>Tongkang</th>
         <th>Tanggal</th>
         <th>Customer</th>
@@ -14,6 +15,11 @@
       <tbody>
         @foreach ($journal as $j)
           <tr>
+            <td>
+              @if ($j->show_available)
+                <p class="text-success"><i class="fa fa-check"></i>Aktif</p>
+              @endif
+            </td>
             <td>{{$j->code}}</td>
             <td>{{\Carbon\Carbon::parse($j->created_at)->formatLocalized('%d %B %Y')}}</td>
             <td>{{$j->customer_name}}</td>

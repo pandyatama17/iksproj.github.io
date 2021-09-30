@@ -28,25 +28,31 @@
     <li class="nav-header">REKAPAN SURAT</li>
     <li class="nav-item">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-ship"></i>
+        <i class="nav-icon fa fa-ship text-success"></i>
         <p>
           Rekap Tongkang
           <i class="right fas fa-angle-left"></i>
         </p>
       </a>
       <ul class="nav nav-treeview">
-        <li class="nav-item">
+        {{-- <li class="nav-item">
           <a href="{{route('master_data')}}" class="nav-link url-redirect">
             <i class="fa fa-archive nav-icon"></i>
             <p>Data Master</p>
+          </a>
+        </li> --}}
+        <li class="nav-item">
+          <a href="{{route('deliveries_wstat', 1)}}" class="nav-link url-redirect">
+            <i class="fa fa-shipping-fast nav-icon text-lime"></i>
+            <p>Rekapan Aktif</p>
           </a>
         </li>
         @if (Auth::user()->role < 2)
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-sitemap"></i>
+              <i class="nav-icon fa fa-sitemap text-purple"></i>
               <p>
-                Pool
+                Per Dermaga
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -63,6 +69,13 @@
           </li>
         @endif
         <li class="nav-item">
+          <a href="{{route('deliveries_wstat', 0)}}" class="nav-link url-redirect">
+            <i class="fa fa-history nav-icon text-secondary"></i>
+            <p>Rekap Non-Aktif (Riwayat)</p>
+          </a>
+        </li>
+        <hr class="bg-secondary">
+        {{-- <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa fa-clipboard-check"></i>
             <p>
@@ -84,19 +97,20 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> --}}
       </ul>
     </li>
     <li class="nav-item">
       <a href="{{route('new_delivery')}}" class="nav-link url-redirect">
-        <i class="fa fa-plus-square nav-icon"></i>
+        <i class="fa fa-plus-square nav-icon text-primary"></i>
         <p>Tambah Rekap</p>
       </a>
+      <hr class="bg-secondary">
     </li>
     <li class="nav-header">SURAT JALAN</li>
     <li class="nav-item">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-mail-bulk"></i>
+        <i class="nav-icon fa fa-mail-bulk text-lightblue"></i>
         <p>
           Data Surat jalan
           <i class="right fas fa-angle-left"></i>
@@ -105,16 +119,16 @@
       <ul class="nav nav-treeview">
         <li class="nav-item">
           <a href="{{route('do_master_data')}}" class="nav-link url-redirect">
-            <i class="fa fa-archive nav-icon"></i>
+            <i class="fa fa-archive nav-icon text-info"></i>
             <p>Data Master</p>
           </a>
         </li>
         @if (Auth::user()->role < 2)
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-sitemap"></i>
+              <i class="nav-icon fa fa-sitemap text-purple"></i>
               <p>
-                Pool
+                Per Dermaga
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -130,7 +144,9 @@
             </ul>
           </li>
         @endif
+        {{-- <hr class="bg-secondary"> --}}
       </ul>
+      <hr class="bg-secondary">
     </li>
     {{-- <li class="nav-item">
       <a href="{{route('new_do')}}" class="nav-link url-redirect">
@@ -144,28 +160,29 @@
       <li class="nav-item">
         <a href="{{route('show_transports')}}" class="nav-link url-redirect">
           {{-- <i class="nav-icon fa fa-people-carry"></i> --}}
-          <i class="nav-icon fa fa-hard-hat"></i>
+          <i class="nav-icon fa fa-hard-hat text-yellow"></i>
           <p>Sopir & Transport</p>
         </a>
       </li>
       <li class="nav-item">
         <a href="{{route('show_users')}}" class="nav-link url-redirect">
-          <i class="nav-icon fa fa-users"></i>
+          <i class="nav-icon fa fa-users text-indigo"></i>
           <p>Data Admin</p>
         </a>
       </li>
       <li class="nav-item">
         <a href="{{route('show_pools')}}" class="nav-link url-redirect">
-          <i class="nav-icon fa fa-sitemap"></i>
+          <i class="nav-icon fa fa-sitemap text-purple"></i>
           <p>Dermaga</p>
         </a>
       </li>
-      {{-- <li class="nav-item">
+      <li class="nav-item">
         <a href="{{route('show_journal')}}" class="nav-link url-redirect">
           <i class="nav-icon fa fa-book"></i>
-          <p>Tutup Buku</p>
+          <p>Jurnal</p>
         </a>
-      </li> --}}
+        <hr class="bg-secondary">
+      </li>
     @endif
     <li class="nav-header">USER</li>
     <li class="nav-item">

@@ -56,7 +56,7 @@ class OperationalController extends Controller
       // Session::forget('status');
       session()->put('deliveries_table','status');
       session()->put('status',$status);
-      if ($status == 1) $dst = "Rekapan Sedang Berlangsung"; else $dst = "Riwayat Rekap";
+      if ($status == 1) $dst = "Rekapan Aktif (Sedang Berlangsung)"; else $dst = "Rekapan Non-Aktif (Riwayat)";
       return view('delivery.master')
               ->with('pool', $dst);
     }
